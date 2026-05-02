@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>DealerAmigo · PR Automotive Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;overscroll-behavior:none}
+body{background:#080808;color:#f1f1f1;font-family:'DM Sans',sans-serif;display:flex;flex-direction:column;height:100dvh;max-width:480px;margin:0 auto;position:relative}
+
+/* ── HEADER ── */
+header{height:58px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:rgba(8,8,8,.95);backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,255,255,.07);z-index:50;position:relative}
+.lg{display:flex;align-items:center;gap:10px}
+.lm{width:36px;height:36px;background:#e11d48;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:16px;color:#fff;box-shadow:0 0 20px rgba(225,29,72,.5);flex-shrink:0}
+.lt h1{font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:2px;line-height:1;color:#f1f1f1;font-style:italic}
+.lt p{font-size:6.5px;letter-spacing:2.5px;text-transform:uppercase;color:#e11d48;font-weight:800;margin-top:1px}
+.pill{display:flex;align-items:center;gap:5px;background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);border-radius:99px;padding:4px 10px;font-size:7.5px;font-weight:700;color:#4ade80;letter-spacing:1px;white-space:nowrap}
+.pill::before{content:'';width:5px;height:5px;background:#4ade80;border-radius:50%;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+
+/* ── TICKER ── */
+.ticker{height:22px;flex-shrink:0;background:#e11d48;overflow:hidden;display:flex;align-items:center}
+.tt{display:flex;white-space:nowrap;animation:tick 28s linear infinite}
+.tt span{font-size:7px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#fff;padding:0 18px}
+.tt span::after{content:'●';margin-left:18px;opacity:.4}
+@keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ── MESSAGES ── */
+#msgs{flex:1;overflow-y:auto;overflow-x:hidden;padding:14px 14px 6px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
+#msgs::-webkit-scrollbar{display:none}
+
+.msg{display:flex;flex-direction:column;max-width:88%;animation:up .22s ease}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.msg.bot{align-self:flex-start;align-items:flex-start}
+.msg.usr{align-self:flex-end;align-items:flex-end}
+.bub{padding:10px 14px;border-radius:18px;font-size:14px;line-height:1.6}
+.msg.bot .bub{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-top-left-radius:3px;color:#f1f1f1}
+.msg.usr .bub{background:#e11d48;border-top-right-radius:3px;color:#fff;box-shadow:0 4px 16px rgba(225,29,72,.3)}
+.bub strong{font-weight:800}
+.bub a{color:#f87171;font-weight:700;text-decoration:none;border-bottom:1px solid rgba(248,113,113,.3)}
+.cita-tag{display:none}
+.lbl{font-size:7.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#222;margin-top:3px;padding:0 3px}
+
+/* ── WELCOME ── */
+.welcome{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:18px;animation:up .3s ease}
+.welcome h2{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;color:#e11d48;margin-bottom:6px}
+.welcome p{font-size:13.5px;color:#666;line-height:1.6}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+.chip{background:rgba(255,255,255,.05);border:1px solid #222;border-radius:99px;padding:8px 16px;font-size:12px;font-weight:600;color:#ccc;cursor:pointer;transition:all .2s;active-opacity:.7}
+.chip:active{background:#e11d48;border-color:#e11d48;color:#fff;transform:scale(.97)}
+
+/* ── TYPING ── */
+.typing{align-self:flex-start;animation:up .2s ease}
+.typing .bub{display:flex;gap:5px;align-items:center;padding:13px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:18px;border-top-left-radius:3px}
+.dot{width:6px;height:6px;background:#e11d48;border-radius:50%;animation:bounce 1.2s infinite}
+.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,80%,100%{transform:translateY(0);opacity:.3}40%{transform:translateY(-6px);opacity:1}}
+
+/* ── CAROUSEL (inline en el chat) ── */
+.carousel-wrap{width:calc(100vw - 28px);max-width:452px;animation:up .3s ease;align-self:flex-start}
+.carousel-label{font-size:7.5px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#333;margin-bottom:8px;padding-left:2px}
+.carousel{display:flex;gap:10px;overflow-x:auto;padding-bottom:8px;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory}
+.carousel::-webkit-scrollbar{display:none}
+
+/* ── VEHICLE CARD (carousel) ── */
+.vcard{flex-shrink:0;width:200px;background:#0e0e0e;border:1px solid rgba(255,255,255,.09);border-radius:18px;overflow:hidden;cursor:pointer;transition:border-color .25s,transform .2s;scroll-snap-align:start;active-opacity:.8}
+.vcard:active{transform:scale(.97);border-color:rgba(225,29,72,.5)}
+.vci{height:120px;position:relative;overflow:hidden;background:#111}
+.vci img{width:100%;height:100%;object-fit:cover;opacity:.7;transition:opacity .3s}
+.vcard:active .vci img{opacity:1}
+.vcg{position:absolute;inset:0;background:linear-gradient(to top,#0e0e0e 0%,transparent 60%)}
+.vcb{position:absolute;top:8px;left:8px;display:flex;gap:4px}
+.vb{font-size:7px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:3px 7px;border-radius:5px}
+.vbr{background:#e11d48;color:#fff}
+.vbd{background:rgba(0,0,0,.8);color:#ccc;border:1px solid rgba(255,255,255,.1)}
+.noph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#111}
+.noph svg{width:28px;height:28px;fill:#1c1c1c}
+.vcbody{padding:10px 11px 12px}
+.vcbody h3{font-family:'Bebas Neue',sans-serif;font-size:17px;font-style:italic;letter-spacing:.5px;line-height:1.1;color:#f1f1f1}
+.vcsub{font-size:7px;color:#252525;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-top:1px}
+.vcprice{font-size:17px;font-weight:800;margin-top:6px;color:#f1f1f1;letter-spacing:-.5px}
+.vcmeta{display:flex;gap:4px;margin-top:6px;flex-wrap:wrap}
+.vcm{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:6px;padding:4px 7px;font-size:8px;font-weight:700;color:#333;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:90px}
+.vctap{width:100%;margin-top:8px;background:#e11d48;color:#fff;border:none;border-radius:10px;padding:9px;font-size:8px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:background .2s}
+.vctap:active{background:#f43f5e}
+
+/* ── INPUT BAR ── */
+.ib{padding:10px 12px;background:rgba(8,8,8,.95);border-top:1px solid rgba(255,255,255,.07);backdrop-filter:blur(20px);flex-shrink:0;padding-bottom:max(10px, env(safe-area-inset-bottom))}
+.iw{position:relative}
+#ui{width:100%;background:#141414;border:1px solid #202020;border-radius:14px;padding:12px 48px 12px 16px;color:#f1f1f1;font-family:'DM Sans',sans-serif;font-size:15px;outline:none;resize:none;max-height:100px;line-height:1.5;transition:border-color .2s;-webkit-appearance:none}
+#ui::placeholder{color:#333}
+#ui:focus{border-color:rgba(225,29,72,.5)}
+#sb{position:absolute;right:6px;bottom:6px;width:36px;height:36px;background:#e11d48;border:none;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;box-shadow:0 4px 14px rgba(225,29,72,.4)}
+#sb:active{transform:scale(.9)}
+#sb:disabled{background:#1a1a1a;cursor:not-allowed;box-shadow:none}
+#sb svg{width:15px;height:15px;fill:#fff}
+.pw{text-align:center;font-size:7.5px;color:#181818;letter-spacing:2px;text-transform:uppercase;font-weight:800;margin-top:6px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="lg">
+    <div class="lm">PR</div>
+    <div class="lt">
+      <h1>PR Automotive Group</h1>
+      <p>Elite Inventory &amp; AI Concierge</p>
+    </div>
+  </div>
+  <div class="pill">En línea 24/7</div>
+</header>
+
+<div class="ticker">
+  <div class="tt">
+    <span>Garantía hasta 100,000 millas</span><span>Protección de crédito incluida</span><span>Tanque lleno en cada entrega</span><span>Entrega en toda la isla</span><span>Recibimos tu trade-in con o sin deuda</span><span>Listos para entrega inmediata</span>
+    <span>Garantía hasta 100,000 millas</span><span>Protección de crédito incluida</span><span>Tanque lleno en cada entrega</span><span>Entrega en toda la isla</span><span>Recibimos tu trade-in con o sin deuda</span><span>Listos para entrega inmediata</span>
+  </div>
+</div>
+
+<div id="msgs">
+  <div class="welcome">
+    <h2>Hola, soy DealerAmigo 👋</h2>
+    <p>Tu asesor virtual de PR Automotive Group. Dime qué buscas y te encuentro el auto perfecto.</p>
+    <div class="chips">
+      <div class="chip" onclick="chip(this)">Ver inventario disponible</div>
+      <div class="chip" onclick="chip(this)">Quiero financiar un auto</div>
+      <div class="chip" onclick="chip(this)">¿Aceptan trade-in?</div>
+      <div class="chip" onclick="chip(this)">Tengo crédito regular</div>
+    </div>
+  </div>
+</div>
+
+<div class="ib">
+  <div class="iw">
+    <textarea id="ui" rows="1" placeholder="Escríbeme aquí..."></textarea>
+    <button id="sb" onclick="send()">
+      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    </button>
+  </div>
+  <p class="pw">Powered by SecretarIA · DealerAmigo</p>
+</div>
+
+<script>
+const API = 'https://script.google.com/macros/s/AKfycbyIUTxUFQMGbtkOLFuAqBvB9_0L8VYSqyx-M0NBgT7x38751bXVLbmIi-lyjFsMXZx8Jg/exec';
+let hist = [];
+let inventario = [];
+
+function buildSystemPrompt() {
+  const inventarioTexto = inventario.length
+    ? inventario.map(v =>
+        `- ${v.year} ${v.make} ${v.model}${v.trim ? ' ' + v.trim : ''} | $${Number(String(v.price).replace(/[^0-9]/g,'')).toLocaleString()} | ${v.mileage} millas | ${v.color}${v.description ? ' | ' + v.description : ''}`
+      ).join('\n')
+    : 'Inventario cargando...';
+
+  return `Eres DealerAmigo, el asesor de ventas virtual de PR Automotive Group en Puerto Rico.
+No eres un chatbot. Eres un vendedor experto en autos que guía la conversación, califica al cliente y cierra citas.
+Tu objetivo es convertir cada conversación en una cita confirmada o capturar el lead para seguimiento.
+
+## QUIÉNES SOMOS
+PR Automotive Group — Marginal Los Angeles, Carolina (justo frente al aeropuerto SJU).
+- Único dealer en PR con garantía hasta 100,000 millas en autos usados con protección de crédito incluida
+- Tanque lleno en cada entrega
+- Listos para entrega inmediata
+- Recibimos tu trade-in con o sin deuda
+- Entrega disponible en toda la isla
+
+## INVENTARIO DISPONIBLE
+${inventarioTexto}
+
+## REGLAS CLAVE
+- Máximo 3 líneas por mensaje
+- UNA sola pregunta por mensaje
+- Siempre mantienes el control de la conversación
+- Nunca dejas la conversación abierta
+- No explicas demasiado, guías
+
+## FLUJO DE CONVERSACIÓN (OBLIGATORIO)
+Obtén de forma natural: qué vehículo busca, cómo va a comprar, inicial o presupuesto mensual, estado de crédito.
+
+## CRÉDITO
+Siempre preguntas antes de cerrar: "¿Tu crédito está bastante bien o ha tenido algún detalle reciente?"
+
+## SI EL VEHÍCULO NO ESTÁ DISPONIBLE
+NUNCA digas "no hay". Di: "No tengo ese exacto ahora mismo, pero puedo conseguirte algo similar o incluso mejor."
+
+## ESTRATEGIA DE VENTA
+- Recomienda solo 1 vehículo a la vez
+- Usa lenguaje simple, no técnico
+- Usa frases como: "Ese modelo se está moviendo rápido", "Viene con garantía hasta 100,000 millas — eso no lo da nadie más aquí en PR"
+
+## CIERRE (OBLIGATORIO)
+Siempre intentas cerrar: "¿Te queda mejor hoy o mañana?", "¿Mañana en la mañana o en la tarde?"
+
+## CAPTURA DE LEAD (CRÍTICO)
+Cuando tengas nombre, teléfono e intención, escribe EXACTAMENTE:
+CITA_CONFIRMADA:[nombre]|[telefono]|[presupuesto]|[vehiculo]|[credito]|PR Automotive Group Carolina
+
+## OBJECIONES
+"Está caro" → "¿Qué pago mensual te haría sentido?"
+"Crédito malo" → "Trabajamos con clientes en esa situación — y tienes la garantía de crédito incluida."
+"No tengo inicial" → "Hay opciones con poco o nada. Si te consigo eso, ¿te interesa?"
+"Lo voy a pensar" → "¿Qué número en el pago haría que no tengas que pensarlo?"
+
+## TONO
+Español natural de Puerto Rico. Seguro, directo, profesional. Como un vendedor que sabe lo que tiene.`;
+}
+
+/* ── TEXTAREA auto-resize ── */
+const ta = document.getElementById('ui');
+ta.addEventListener('input', () => {
+  ta.style.height = 'auto';
+  ta.style.height = Math.min(ta.scrollHeight, 100) + 'px';
+});
+ta.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+});
+
+/* ── HELPERS ── */
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function md(t) {
+  return t
+    .replace(/CITA_CONFIRMADA:[^\n]*/g, '<span class="cita-tag">$&</span>')
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/\n/g, '<br>');
+}
+
+function scrollBottom() {
+  const m = document.getElementById('msgs');
+  setTimeout(() => m.scrollTop = m.scrollHeight, 60);
+}
+
+function addMsg(role, text) {
+  const m = document.getElementById('msgs');
+  const w = document.createElement('div');
+  w.className = 'msg ' + role;
+  w.innerHTML = `<div class="bub">${md(text)}</div><div class="lbl">${role === 'bot' ? 'DealerAmigo · PR Group' : 'Tú'}</div>`;
+  m.appendChild(w);
+  scrollBottom();
+}
+
+function addTyping() {
+  const m = document.getElementById('msgs');
+  const w = document.createElement('div');
+  w.className = 'typing'; w.id = 'typing';
+  w.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
+  m.appendChild(w);
+  scrollBottom();
+}
+
+/* ── CAROUSEL dentro del chat ── */
+function addCarousel(vehicles) {
+  const m = document.getElementById('msgs');
+  const wrap = document.createElement('div');
+  wrap.className = 'carousel-wrap';
+
+  const nophSvg = `<div class="noph"><svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg></div>`;
+
+  wrap.innerHTML = `<div class="carousel-label">Opciones disponibles · Toca para más info</div>
+  <div class="carousel">${vehicles.map(v => {
+    const nombre = `${v.ano} ${v.marca} ${v.modelo}${v.trim ? ' ' + v.trim : ''}`;
+    const precio = v.precio ? '$' + Number(String(v.precio).replace(/[^0-9]/g, '')).toLocaleString() : 'Consultar';
+    const img = v.foto
+      ? `<img src="${esc(v.foto)}" alt="${esc(nombre)}" loading="lazy" onerror="this.parentElement.innerHTML='${nophSvg.replace(/'/g, "\\'")}'">` 
+      : nophSvg;
+    const nombreEsc = nombre.replace(/'/g, "\\'");
+    return `<div class="vcard" onclick="seleccionarAuto('${nombreEsc}')">
+      <div class="vci">${img}<div class="vcg"></div>
+        <div class="vcb"><span class="vb vbr">${esc(v.ano)}</span><span class="vb vbd">Certified</span></div>
+      </div>
+      <div class="vcbody">
+        <h3>${esc(v.modelo)}${v.trim ? '<small style="font-size:11px;opacity:.35"> ' + esc(v.trim) + '</small>' : ''}</h3>
+        <p class="vcsub">Garantía 100K · Entrega inmediata</p>
+        <div class="vcprice">${precio}</div>
+        <div class="vcmeta">
+          <div class="vcm">${esc(v.millaje || '—')}</div>
+          <div class="vcm">${esc(v.color || '—')}</div>
+        </div>
+        <button class="vctap">Ver detalles →</button>
+      </div>
+    </div>`;
+  }).join('')}</div>`;
+
+  m.appendChild(wrap);
+  scrollBottom();
+}
+
+function seleccionarAuto(nombre) {
+  const t = `Me interesa el ${nombre}, dame más detalles`;
+  hist.push({ role: 'user', content: t });
+  addMsg('usr', t);
+  callAPI();
+}
+
+/* ── API ── */
+async function callAPI() {
+  document.getElementById('sb').disabled = true;
+  addTyping();
+  try {
+    const r = await fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({ action: 'chat', system: buildSystemPrompt(), messages: hist })
+    });
+    const d = await r.json();
+    document.getElementById('typing')?.remove();
+    const reply = (d && d.content && d.content[0] && d.content[0].text) || (d && d.error) || '⚠️ Error. Intenta de nuevo.';
+    hist.push({ role: 'assistant', content: reply });
+    addMsg('bot', reply);
+
+    // Si la respuesta menciona vehículos y hay inventario cargado, mostrar carousel
+    const lower = reply.toLowerCase();
+    const keywords = ['inventario', 'tengo', 'disponible', 'te puedo mostrar', 'opciones', 'vehículo', 'auto', 'carro'];
+    const shouldShowCards = inventario.length > 0 && keywords.some(k => lower.includes(k)) && !lower.includes('cita');
+    if (shouldShowCards) {
+      const subset = inventario.slice(0, 6);
+      addCarousel(subset);
+    }
+  } catch(e) {
+    document.getElementById('typing')?.remove();
+    addMsg('bot', '⚠️ Sin conexión. Intenta de nuevo.');
+  } finally {
+    document.getElementById('sb').disabled = false;
+  }
+}
+
+function send() {
+  const t = ta.value.trim();
+  if (!t) return;
+  ta.value = ''; ta.style.height = 'auto';
+  hist.push({ role: 'user', content: t });
+  addMsg('usr', t);
+  callAPI();
+}
+
+function chip(el) {
+  const t = el.textContent.trim();
+  el.closest('.welcome')?.remove();
+  hist.push({ role: 'user', content: t });
+  addMsg('usr', t);
+  callAPI();
+}
+
+/* ── Precargar inventario en background ── */
+async function loadInventory() {
+  try {
+    const r = await fetch(`${API}?action=inventory`);
+    const d = await r.json();
+    inventario = d.vehicles || [];
+  } catch(e) {
+    inventario = [];
+  }
+}
+
+loadInventory();
+</script>
+</body>
+</html>
