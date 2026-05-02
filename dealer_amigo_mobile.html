@@ -262,22 +262,22 @@ function addCarousel(vehicles) {
 
   wrap.innerHTML = `<div class="carousel-label">Opciones disponibles · Toca para más info</div>
   <div class="carousel">${vehicles.map(v => {
-    const nombre = `${v.ano} ${v.marca} ${v.modelo}${v.trim ? ' ' + v.trim : ''}`;
-    const precio = v.precio ? '$' + Number(String(v.precio).replace(/[^0-9]/g, '')).toLocaleString() : 'Consultar';
-    const img = v.foto
-      ? `<img src="${esc(v.foto)}" alt="${esc(nombre)}" loading="lazy" onerror="this.parentElement.innerHTML='${nophSvg.replace(/'/g, "\\'")}'">` 
+    const nombre = `${v.year} ${v.make} ${v.model}${v.trim ? ' ' + v.trim : ''}`;
+    const precio = v.price ? '$' + Number(String(v.price).replace(/[^0-9]/g, '')).toLocaleString() : 'Consultar';
+    const img = v.photo
+      ? `<img src="${esc(v.photo)}" alt="${esc(nombre)}" loading="lazy" onerror="this.parentElement.innerHTML='${nophSvg.replace(/'/g, "\\'")}'">` 
       : nophSvg;
     const nombreEsc = nombre.replace(/'/g, "\\'");
     return `<div class="vcard" onclick="seleccionarAuto('${nombreEsc}')">
       <div class="vci">${img}<div class="vcg"></div>
-        <div class="vcb"><span class="vb vbr">${esc(v.ano)}</span><span class="vb vbd">Certified</span></div>
+        <div class="vcb"><span class="vb vbr">${esc(v.year)}</span><span class="vb vbd">Certified</span></div>
       </div>
       <div class="vcbody">
-        <h3>${esc(v.modelo)}${v.trim ? '<small style="font-size:11px;opacity:.35"> ' + esc(v.trim) + '</small>' : ''}</h3>
+        <h3>${esc(v.model)}${v.trim ? '<small style="font-size:11px;opacity:.35"> ' + esc(v.trim) + '</small>' : ''}</h3>
         <p class="vcsub">Garantía 100K · Entrega inmediata</p>
         <div class="vcprice">${precio}</div>
         <div class="vcmeta">
-          <div class="vcm">${esc(v.millaje || '—')}</div>
+          <div class="vcm">${esc(v.mileage || '—')}</div>
           <div class="vcm">${esc(v.color || '—')}</div>
         </div>
         <button class="vctap">Ver detalles →</button>
