@@ -2,361 +2,547 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-<title>DealerAmigo · PR Automotive Group</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PR Automotive Group — DealerAmigo</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;overflow:hidden;overscroll-behavior:none}
-body{background:#080808;color:#f1f1f1;font-family:'DM Sans',sans-serif;display:flex;flex-direction:column;height:100dvh;max-width:480px;margin:0 auto;position:relative}
+  :root {
+    --red:#E8102A; --red-dark:#b50d21; --red-dim:#3a0a0f;
+    --black:#0a0a0a; --dark:#111; --card:#181818;
+    --border:#252525; --muted:#505050; --text:#f0f0f0; --sub:#777;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;overflow:hidden}
+  body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;display:flex;flex-direction:column;height:100dvh}
 
-/* ── HEADER ── */
-header{height:58px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:rgba(8,8,8,.95);backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,255,255,.07);z-index:50;position:relative}
-.lg{display:flex;align-items:center;gap:10px}
-.lm{width:36px;height:36px;background:#e11d48;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:16px;color:#fff;box-shadow:0 0 20px rgba(225,29,72,.5);flex-shrink:0}
-.lt h1{font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:2px;line-height:1;color:#f1f1f1;font-style:italic}
-.lt p{font-size:6.5px;letter-spacing:2.5px;text-transform:uppercase;color:#e11d48;font-weight:800;margin-top:1px}
-.pill{display:flex;align-items:center;gap:5px;background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);border-radius:99px;padding:4px 10px;font-size:7.5px;font-weight:700;color:#4ade80;letter-spacing:1px;white-space:nowrap}
-.pill::before{content:'';width:5px;height:5px;background:#4ade80;border-radius:50%;animation:blink 2s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+  /* ── HEADER ── */
+  header{background:var(--dark);border-bottom:1px solid var(--border);padding:11px 16px;display:flex;align-items:center;gap:11px;flex-shrink:0}
+  .logo-badge{background:var(--red);color:#fff;font-family:'Bebas Neue',sans-serif;font-size:17px;width:36px;height:36px;border-radius:7px;display:flex;align-items:center;justify-content:center;letter-spacing:1px}
+  .logo-text strong{display:block;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:2px}
+  .logo-text span{font-size:9px;color:var(--red);letter-spacing:3px;text-transform:uppercase}
+  .live{margin-left:auto;display:flex;align-items:center;gap:5px;font-size:10px;color:var(--sub)}
+  .live-dot{width:7px;height:7px;background:#22c55e;border-radius:50%;animation:blink 2s infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 
-/* ── TICKER ── */
-.ticker{height:22px;flex-shrink:0;background:#e11d48;overflow:hidden;display:flex;align-items:center}
-.tt{display:flex;white-space:nowrap;animation:tick 28s linear infinite}
-.tt span{font-size:7px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#fff;padding:0 18px}
-.tt span::after{content:'●';margin-left:18px;opacity:.4}
-@keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+  /* ── MESSAGES ── */
+  #messages{flex:1;overflow-y:auto;padding:14px 14px 8px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth}
+  #messages::-webkit-scrollbar{width:3px}
+  #messages::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
 
-/* ── MESSAGES ── */
-#msgs{flex:1;overflow-y:auto;overflow-x:hidden;padding:14px 14px 6px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
-#msgs::-webkit-scrollbar{display:none}
+  .msg{max-width:86%;animation:up .2s ease}
+  .msg.bot{align-self:flex-start}
+  .msg.user{align-self:flex-end}
+  @keyframes up{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
 
-.msg{display:flex;flex-direction:column;max-width:88%;animation:up .22s ease}
-@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.msg.bot{align-self:flex-start;align-items:flex-start}
-.msg.usr{align-self:flex-end;align-items:flex-end}
-.bub{padding:10px 14px;border-radius:18px;font-size:14px;line-height:1.6}
-.msg.bot .bub{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-top-left-radius:3px;color:#f1f1f1}
-.msg.usr .bub{background:#e11d48;border-top-right-radius:3px;color:#fff;box-shadow:0 4px 16px rgba(225,29,72,.3)}
-.bub strong{font-weight:800}
-.bub a{color:#f87171;font-weight:700;text-decoration:none;border-bottom:1px solid rgba(248,113,113,.3)}
-.cita-tag{display:none}
-.lbl{font-size:7.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#222;margin-top:3px;padding:0 3px}
+  .bubble{padding:10px 14px;border-radius:15px;font-size:14px;line-height:1.55}
+  .msg.bot .bubble{background:var(--card);border:1px solid var(--border);border-bottom-left-radius:3px}
+  .msg.user .bubble{background:var(--red);border-bottom-right-radius:3px}
+  .msg-time{font-size:9px;color:var(--sub);margin-top:3px;padding:0 3px}
+  .msg.user .msg-time{text-align:right}
 
-/* ── WELCOME ── */
-.welcome{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:18px;animation:up .3s ease}
-.welcome h2{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;color:#e11d48;margin-bottom:6px}
-.welcome p{font-size:13.5px;color:#666;line-height:1.6}
-.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
-.chip{background:rgba(255,255,255,.05);border:1px solid #222;border-radius:99px;padding:8px 16px;font-size:12px;font-weight:600;color:#ccc;cursor:pointer;transition:all .2s;active-opacity:.7}
-.chip:active{background:#e11d48;border-color:#e11d48;color:#fff;transform:scale(.97)}
+  /* ── VEHICLE CARD ── */
+  .v-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;width:272px;align-self:flex-start;animation:up .3s ease}
+  .v-card-img{width:100%;height:162px;object-fit:cover;display:block;background:#1a1a1a}
+  .v-card-img-placeholder{width:100%;height:162px;background:linear-gradient(135deg,#1a1a1a,#222);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--sub);font-size:12px}
+  .v-card-img-placeholder svg{width:32px;height:32px;fill:var(--muted)}
+  .v-body{padding:13px}
+  .v-title{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px;line-height:1.1;margin-bottom:7px}
+  .v-badges{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:9px}
+  .badge{font-size:10px;padding:2px 7px;border-radius:20px;background:var(--border);color:var(--sub)}
+  .badge.hot{background:var(--red-dim);color:var(--red);border:1px solid #5a1010}
+  .v-price{font-size:21px;font-weight:700;color:var(--red);margin-bottom:11px}
+  .v-actions{display:flex;gap:8px}
+  .btn-primary{flex:1;background:var(--red);color:#fff;border:none;border-radius:9px;padding:10px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s}
+  .btn-primary:hover{background:var(--red-dark)}
+  .btn-photo{background:transparent;border:1px solid var(--border);color:var(--sub);border-radius:9px;padding:10px 11px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:5px;transition:border-color .15s,color .15s;white-space:nowrap}
+  .btn-photo:hover{border-color:var(--red);color:var(--red)}
+  .btn-photo svg{width:13px;height:13px;fill:currentColor}
 
-/* ── TYPING ── */
-.typing{align-self:flex-start;animation:up .2s ease}
-.typing .bub{display:flex;gap:5px;align-items:center;padding:13px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:18px;border-top-left-radius:3px}
-.dot{width:6px;height:6px;background:#e11d48;border-radius:50%;animation:bounce 1.2s infinite}
-.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
-@keyframes bounce{0%,80%,100%{transform:translateY(0);opacity:.3}40%{transform:translateY(-6px);opacity:1}}
+  /* ── DETAIL PANEL ── */
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:99;opacity:0;pointer-events:none;transition:opacity .3s}
+  .overlay.open{opacity:1;pointer-events:all}
+  .panel{position:fixed;bottom:0;left:0;right:0;background:var(--dark);border-top:1px solid var(--border);border-radius:18px 18px 0 0;padding:18px 15px 34px;z-index:100;transform:translateY(100%);transition:transform .33s cubic-bezier(.32,.72,0,1);max-height:90dvh;overflow-y:auto}
+  .panel.open{transform:translateY(0)}
+  .panel-handle{width:38px;height:3px;background:var(--border);border-radius:2px;margin:0 auto 16px}
+  .panel-img{width:100%;height:210px;object-fit:cover;border-radius:11px;margin-bottom:14px;background:#1a1a1a;display:block}
+  .panel-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:1px;line-height:1.1;margin-bottom:3px}
+  .panel-price{font-size:22px;font-weight:700;color:var(--red);margin-bottom:14px}
+  .panel-specs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+  .spec{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:9px 11px}
+  .spec-lbl{font-size:9px;color:var(--sub);text-transform:uppercase;letter-spacing:1px}
+  .spec-val{font-size:13px;font-weight:600;margin-top:2px}
+  .panel-pitch{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:11px;padding:13px;font-size:13px;line-height:1.65;color:var(--sub);margin-bottom:14px}
+  .panel-pitch strong{color:var(--text)}
+  .panel-photo-link{display:flex;align-items:center;gap:8px;background:var(--red-dim);border:1px solid #5a1010;border-radius:9px;padding:11px 13px;color:var(--red);font-size:13px;font-weight:600;text-decoration:none;margin-bottom:14px}
+  .panel-photo-link svg{width:15px;height:15px;fill:var(--red);flex-shrink:0}
+  .btn-close{width:100%;background:transparent;border:1px solid var(--border);color:var(--sub);border-radius:9px;padding:10px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
 
-/* ── CAROUSEL (inline en el chat) ── */
-.carousel-wrap{width:calc(100vw - 28px);max-width:452px;animation:up .3s ease;align-self:flex-start}
-.carousel-label{font-size:7.5px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#333;margin-bottom:8px;padding-left:2px}
-.carousel{display:flex;gap:10px;overflow-x:auto;padding-bottom:8px;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory}
-.carousel::-webkit-scrollbar{display:none}
+  /* ── TYPING ── */
+  .typing{background:var(--card);border:1px solid var(--border);border-bottom-left-radius:3px;padding:11px 15px;border-radius:15px;display:flex;gap:4px;align-items:center}
+  .typing span{width:5px;height:5px;background:var(--sub);border-radius:50%;animation:dot 1.2s infinite}
+  .typing span:nth-child(2){animation-delay:.2s}
+  .typing span:nth-child(3){animation-delay:.4s}
+  @keyframes dot{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
 
-/* ── VEHICLE CARD (carousel) ── */
-.vcard{flex-shrink:0;width:200px;background:#0e0e0e;border:1px solid rgba(255,255,255,.09);border-radius:18px;overflow:hidden;cursor:pointer;transition:border-color .25s,transform .2s;scroll-snap-align:start;active-opacity:.8}
-.vcard:active{transform:scale(.97);border-color:rgba(225,29,72,.5)}
-.vci{height:120px;position:relative;overflow:hidden;background:#111}
-.vci img{width:100%;height:100%;object-fit:cover;opacity:.7;transition:opacity .3s}
-.vcard:active .vci img{opacity:1}
-.vcg{position:absolute;inset:0;background:linear-gradient(to top,#0e0e0e 0%,transparent 60%)}
-.vcb{position:absolute;top:8px;left:8px;display:flex;gap:4px}
-.vb{font-size:7px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:3px 7px;border-radius:5px}
-.vbr{background:#e11d48;color:#fff}
-.vbd{background:rgba(0,0,0,.8);color:#ccc;border:1px solid rgba(255,255,255,.1)}
-.noph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#111}
-.noph svg{width:28px;height:28px;fill:#1c1c1c}
-.vcbody{padding:10px 11px 12px}
-.vcbody h3{font-family:'Bebas Neue',sans-serif;font-size:17px;font-style:italic;letter-spacing:.5px;line-height:1.1;color:#f1f1f1}
-.vcsub{font-size:7px;color:#252525;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-top:1px}
-.vcprice{font-size:17px;font-weight:800;margin-top:6px;color:#f1f1f1;letter-spacing:-.5px}
-.vcmeta{display:flex;gap:4px;margin-top:6px;flex-wrap:wrap}
-.vcm{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:6px;padding:4px 7px;font-size:8px;font-weight:700;color:#333;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:90px}
-.vctap{width:100%;margin-top:8px;background:#e11d48;color:#fff;border:none;border-radius:10px;padding:9px;font-size:8px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:background .2s}
-.vctap:active{background:#f43f5e}
+  /* ── CHIPS ── */
+  #chips{display:flex;gap:7px;padding:0 14px 9px;overflow-x:auto;flex-shrink:0}
+  #chips::-webkit-scrollbar{display:none}
+  .chip{background:transparent;border:1px solid var(--border);color:var(--sub);font-family:'DM Sans',sans-serif;font-size:11px;padding:5px 11px;border-radius:20px;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0}
+  .chip:hover{border-color:var(--red);color:var(--red)}
 
-/* ── INPUT BAR ── */
-.ib{padding:10px 12px;background:rgba(8,8,8,.95);border-top:1px solid rgba(255,255,255,.07);backdrop-filter:blur(20px);flex-shrink:0;padding-bottom:max(10px, env(safe-area-inset-bottom))}
-.iw{position:relative}
-#ui{width:100%;background:#141414;border:1px solid #202020;border-radius:14px;padding:12px 48px 12px 16px;color:#f1f1f1;font-family:'DM Sans',sans-serif;font-size:15px;outline:none;resize:none;max-height:100px;line-height:1.5;transition:border-color .2s;-webkit-appearance:none}
-#ui::placeholder{color:#333}
-#ui:focus{border-color:rgba(225,29,72,.5)}
-#sb{position:absolute;right:6px;bottom:6px;width:36px;height:36px;background:#e11d48;border:none;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;box-shadow:0 4px 14px rgba(225,29,72,.4)}
-#sb:active{transform:scale(.9)}
-#sb:disabled{background:#1a1a1a;cursor:not-allowed;box-shadow:none}
-#sb svg{width:15px;height:15px;fill:#fff}
-.pw{text-align:center;font-size:7.5px;color:#181818;letter-spacing:2px;text-transform:uppercase;font-weight:800;margin-top:6px}
+  /* ── INPUT ── */
+  #input-row{background:var(--dark);border-top:1px solid var(--border);padding:11px 14px;display:flex;gap:9px;align-items:flex-end;flex-shrink:0}
+  #txt{flex:1;background:var(--card);border:1px solid var(--border);border-radius:19px;padding:9px 15px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;resize:none;max-height:96px;line-height:1.4;outline:none;transition:border-color .2s}
+  #txt:focus{border-color:var(--red)}
+  #txt::placeholder{color:var(--muted)}
+  #send{background:var(--red);border:none;border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:background .15s,transform .1s}
+  #send:hover{background:var(--red-dark)}
+  #send:active{transform:scale(.92)}
+  #send svg{width:15px;height:15px;fill:#fff}
+
+  /* ── FOOTER ── */
+  .footer{text-align:center;font-size:9px;color:var(--muted);padding:3px 0 7px;letter-spacing:2px;text-transform:uppercase;flex-shrink:0}
+
+  /* ── BANNERS ── */
+  .lead-ok{background:linear-gradient(135deg,#14532d,#166534);border:1px solid #22c55e33;border-radius:11px;padding:11px 13px;font-size:12px;color:#86efac;display:flex;align-items:center;gap:7px;animation:up .3s ease;align-self:flex-start;max-width:88%}
+  .err-banner{background:#2a0a0a;border:1px solid #5a1010;border-radius:11px;padding:10px 13px;font-size:12px;color:#f87171;align-self:flex-start;max-width:88%}
+
+  /* ── INVENTORY LOADING ── */
+  .inv-loading{align-self:flex-start;font-size:12px;color:var(--sub);padding:8px 4px}
 </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <header>
-  <div class="lg">
-    <div class="lm">PR</div>
-    <div class="lt">
-      <h1>PR Automotive Group</h1>
-      <p>Elite Inventory &amp; AI Concierge</p>
-    </div>
+  <div class="logo-badge">PR</div>
+  <div class="logo-text">
+    <strong>PR AUTOMOTIVE GROUP</strong>
+    <span>Retail &amp; Wholesale · Carolina, PR</span>
   </div>
-  <div class="pill">En línea 24/7</div>
+  <div class="live"><div class="live-dot"></div>En línea</div>
 </header>
 
-<div class="ticker">
-  <div class="tt">
-    <span>Garantía hasta 100,000 millas</span><span>Protección de crédito incluida</span><span>Tanque lleno en cada entrega</span><span>Entrega en toda la isla</span><span>Recibimos tu trade-in con o sin deuda</span><span>Listos para entrega inmediata</span>
-    <span>Garantía hasta 100,000 millas</span><span>Protección de crédito incluida</span><span>Tanque lleno en cada entrega</span><span>Entrega en toda la isla</span><span>Recibimos tu trade-in con o sin deuda</span><span>Listos para entrega inmediata</span>
-  </div>
+<!-- MESSAGES -->
+<div id="messages"></div>
+
+<!-- QUICK CHIPS -->
+<div id="chips">
+  <button class="chip" onclick="chip(this)">Ver inventario</button>
+  <button class="chip" onclick="chip(this)">Necesito financiamiento</button>
+  <button class="chip" onclick="chip(this)">Tengo trade-in</button>
+  <button class="chip" onclick="chip(this)">¿Hacen entrega?</button>
+  <button class="chip" onclick="chip(this)">Crédito bajo</button>
+  <button class="chip" onclick="chip(this)">Pick ups disponibles</button>
 </div>
 
-<div id="msgs">
-  <div class="welcome">
-    <h2>Hola, soy DealerAmigo 👋</h2>
-    <p>Tu asesor virtual de PR Automotive Group. Dime qué buscas y te encuentro el auto perfecto.</p>
-    <div class="chips">
-      <div class="chip" onclick="chip(this)">Ver inventario disponible</div>
-      <div class="chip" onclick="chip(this)">Quiero financiar un auto</div>
-      <div class="chip" onclick="chip(this)">¿Aceptan trade-in?</div>
-      <div class="chip" onclick="chip(this)">Tengo crédito regular</div>
-    </div>
-  </div>
+<!-- INPUT -->
+<div id="input-row">
+  <textarea id="txt" placeholder="Escríbeme aquí..." rows="1"></textarea>
+  <button id="send" onclick="send()">
+    <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+  </button>
 </div>
+<div class="footer">Powered by DealerAmigo</div>
 
-<div class="ib">
-  <div class="iw">
-    <textarea id="ui" rows="1" placeholder="Escríbeme aquí..."></textarea>
-    <button id="sb" onclick="send()">
-      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-    </button>
-  </div>
-  <p class="pw">Powered by SecretarIA · DealerAmigo</p>
+<!-- DETAIL PANEL -->
+<div class="overlay" id="overlay" onclick="closePanel()"></div>
+<div class="panel" id="panel">
+  <div class="panel-handle"></div>
+  <img id="p-img" src="" alt="" class="panel-img"/>
+  <div class="panel-title" id="p-title"></div>
+  <div class="panel-price" id="p-price"></div>
+  <div class="panel-specs" id="p-specs"></div>
+  <div class="panel-pitch" id="p-pitch"></div>
+  <a id="p-photo-link" href="#" target="_blank" class="panel-photo-link" style="display:none">
+    <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-1.1 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+    Ver foto del vehículo
+  </a>
+  <button class="btn-close" onclick="closePanel()">← Volver al chat</button>
 </div>
 
 <script>
-const API = 'https://script.google.com/macros/s/AKfycbyIUTxUFQMGbtkOLFuAqBvB9_0L8VYSqyx-M0NBgT7x38751bXVLbmIi-lyjFsMXZx8Jg/exec';
-let hist = [];
-let inventario = [];
+// ============================================================
+// CONFIGURATION — Reemplaza con tus Web App URLs reales
+// ============================================================
+const DOGET_URL  = 'https://script.google.com/macros/s/TU_DOGET_DEPLOYMENT_ID/exec';
+const DOPOST_URL = 'https://script.google.com/macros/s/AKfycbxyPVn1moxv8CZR6Fp-n2QdbFs8DlDJZfCiXiZAROiNKao2U21xoVKwJ73H3N0dYug/exec';
 
+// ============================================================
+// STATE
+// ============================================================
+let INVENTARIO   = [];      // Cargado en vivo desde Sheet
+let history      = [];      // Historial para Claude API
+let leadData     = {};      // Datos del lead acumulados
+let leadEnviado  = false;
+let isTyping     = false;
+
+// ============================================================
+// LOAD INVENTORY ON START
+// ============================================================
+async function cargarInventario() {
+  try {
+    const res  = await fetch(DOGET_URL);
+    const json = await res.json();
+    if (json.status === 'ok' && Array.isArray(json.inventario)) {
+      INVENTARIO = json.inventario;
+      console.log(`✅ Inventario cargado: ${INVENTARIO.length} unidades`);
+    }
+  } catch (err) {
+    console.warn('⚠️ No se pudo cargar inventario en vivo. Usando fallback.');
+    INVENTARIO = FALLBACK_INVENTORY;
+  }
+  iniciarChat();
+}
+
+// ============================================================
+// FALLBACK INVENTORY (si el Sheet no responde)
+// ============================================================
+const FALLBACK_INVENTORY = [
+  { ano:'2026', marca:'Hyundai', modelo:'Santa Cruz', sub_modelo_trim_level:'SE', motor:'4 cilindros', transmision:'8-speed w/shiftronic', mpg:'22/22', color:'Gris', precio:'$37,995', millaje:'20', fotoweblink:'', clase:'Pick Up', descripcion:'', disponibles:'Disponible' },
+  { ano:'2023', marca:'Mercedes-Benz', modelo:'GLC 300', sub_modelo_trim_level:'Coupe', motor:'2.0L Turbo', transmision:'9-speed Auto', mpg:'20/20', color:'Negra', precio:'$52,995', millaje:'17k', fotoweblink:'https://apicdn.inventario360.com/cdn-cgi/image/width=640,height=480,fit=cover,quality=100,onerror=redirect/vehicles/oPAa7Wj5/media_69e640bca6057.jpg', clase:'Luxury', descripcion:'', disponibles:'Disponible' },
+  { ano:'2024', marca:'Genesis', modelo:'GV80', sub_modelo_trim_level:'Prestige', motor:'3.5L Twin-Turbo V6', transmision:'8-speed Auto', mpg:'18/18', color:'Blanca Perla', precio:'$55,595', millaje:'18k', fotoweblink:'https://apicdn.inventario360.com/cdn-cgi/image/width=1024,height=768,fit=cover,quality=100,onerror=redirect/vehicles/oPAa7Wj5/media_69d558fc95b25.jpg', clase:'De Lujo', descripcion:'', disponibles:'Disponible' },
+  { ano:'2024', marca:'Kia', modelo:'Carnival', sub_modelo_trim_level:'', motor:'V6', transmision:'8-speed', mpg:'19/19', color:'Blanca', precio:'$30,995', millaje:'28k', fotoweblink:'https://apicdn.inventario360.com/cdn-cgi/image/width=1024,height=768,fit=cover,quality=100,onerror=redirect/vehicles/oPAa7Wj5/media_686bf9396392c.png', clase:'Mini-Van', descripcion:'', disponibles:'Disponible' },
+  { ano:'2025', marca:'Toyota', modelo:'Tacoma', sub_modelo_trim_level:'2WD TRD Sport', motor:'4 cilindros Turbo', transmision:'8 velocidades', mpg:'20/24', color:'Gris Cemento', precio:'$47,995', millaje:'10', fotoweblink:'https://apicdn.inventario360.com/cdn-cgi/image/width=1024,height=768,fit=cover,quality=100,onerror=redirect/vehicles/oPAa7Wj5/media_69ac5fbd1830e.jpg', clase:'Pick Up', descripcion:'Oferta especial si llegas con trade-in', disponibles:'Disponible' },
+  { ano:'2024', marca:'Toyota', modelo:'Corolla', sub_modelo_trim_level:'LE', motor:'4 cilindros', transmision:'CVT', mpg:'31/31', color:'Gris Cemento', precio:'$23,995', millaje:'28922', fotoweblink:'https://apicdn.inventario360.com/cdn-cgi/image/width=640,height=480,fit=cover,quality=100,onerror=redirect/vehicles/oPAa7Wj5/media_69496b3b6761a.jpg', clase:'Económico', descripcion:'Oferta especial para primeros compradores', disponibles:'Disponible' },
+  { ano:'2023', marca:'Nissan', modelo:'Pathfinder', sub_modelo_trim_level:'SV', motor:'V6', transmision:'CVT', mpg:'20/27', color:'Gris', precio:'$28,995', millaje:'42546', fotoweblink:'https://apicdn.inventario360.com/cdn-cgi/image/width=1024,height=768,fit=cover,quality=100,onerror=redirect/vehicles/oPAa7Wj5/media_68c887457bd0b.jpg', clase:'3 Filas', descripcion:'Super espaciosa, potente y deslumbrante', disponibles:'Disponible' },
+  { ano:'2025', marca:'Hyundai', modelo:'Tucson', sub_modelo_trim_level:'', motor:'4 cilindros', transmision:'8-speed Auto', mpg:'26/31', color:'Gris', precio:'$28,996', millaje:'16', fotoweblink:'', clase:'SUV', descripcion:'Ruleta de Ofertas — pagos desde $368/mes', disponibles:'Disponible' }
+];
+
+// ============================================================
+// BUILD SYSTEM PROMPT WITH LIVE INVENTORY
+// ============================================================
 function buildSystemPrompt() {
-  const inventarioTexto = inventario.length
-    ? inventario.map(v =>
-        `- ${v.year} ${v.make} ${v.model}${v.trim ? ' ' + v.trim : ''} | $${Number(String(v.price).replace(/[^0-9]/g,'')).toLocaleString()} | ${v.mileage} millas | ${v.color}${v.description ? ' | ' + v.description : ''}`
-      ).join('\n')
-    : 'Inventario cargando...';
+  const invTexto = INVENTARIO.map(v => {
+    const mill  = v.millaje || v.millaje_o_km || '';
+    const foto  = v.fotoweblink || v.foto || '';
+    const desc  = v.descripcion || v.descripcion_o_notas || '';
+    const trim  = v.sub_modelo_trim_level || v.trim || '';
+    return `• ${v.ano} ${v.marca} ${v.modelo} ${trim} | ${mill} millas | ${v.precio || v.precio_venta || ''} | ${v.color || ''} | ${v.clase || ''} | Foto: ${foto || 'sin foto'} | ${desc}`;
+  }).join('\n');
 
   return `Eres DealerAmigo, el asesor de ventas virtual de PR Automotive Group en Puerto Rico.
-No eres un chatbot. Eres un vendedor experto en autos que guía la conversación, califica al cliente y cierra citas.
-Tu objetivo es convertir cada conversación en una cita confirmada o capturar el lead para seguimiento.
+Eres un vendedor experto, no un chatbot. Guías la conversación, calificas al cliente y cierras citas.
 
-## QUIÉNES SOMOS
-PR Automotive Group — Marginal Los Angeles, Carolina (justo frente al aeropuerto SJU).
-- Único dealer en PR con garantía hasta 100,000 millas en autos usados con protección de crédito incluida
-- Tanque lleno en cada entrega
-- Listos para entrega inmediata
-- Recibimos tu trade-in con o sin deuda
-- Entrega disponible en toda la isla
+## DEALER
+PR Automotive Group — Marginal Los Angeles, Carolina PR (frente al aeropuerto SJU).
+- Único dealer en PR: garantía hasta 100,000 millas en usados + protección de crédito incluida
+- Tanque lleno en cada entrega. Entrega disponible en toda la isla. Trade-in con o sin deuda.
 
-## INVENTARIO DISPONIBLE
-${inventarioTexto}
+## INVENTARIO EN VIVO
+${invTexto}
 
-## REGLAS CLAVE
+## REGLAS DE CONVERSACIÓN
 - Máximo 3 líneas por mensaje
 - UNA sola pregunta por mensaje
-- Siempre mantienes el control de la conversación
-- Nunca dejas la conversación abierta
-- No explicas demasiado, guías
+- Siempre controlas la dirección de la conversación
+- Nunca dejes la conversación abierta sin una pregunta o próximo paso
+- Tono: español natural de Puerto Rico, seguro, directo, cálido — nunca grosero ni brusco
 
-## FLUJO DE CONVERSACIÓN (OBLIGATORIO)
-Obtén de forma natural: qué vehículo busca, cómo va a comprar, inicial o presupuesto mensual, estado de crédito.
+## MOSTRAR VEHÍCULO
+Cuando recomiendes un vehículo, escribe AL FINAL del mensaje (en línea nueva):
+MOSTRAR_VEHICULO:[año] [marca] [modelo]
+Ejemplo: MOSTRAR_VEHICULO:2023 Mercedes-Benz GLC 300
 
-## CRÉDITO
-Siempre preguntas antes de cerrar: "¿Tu crédito está bastante bien o ha tenido algún detalle reciente?"
+## INFORMACIÓN QUE DEBES CAPTURAR (naturalmente, sin interrogatorio)
+nombre, telefono, email, vehiculo_interes, tipo_vehiculo, presupuesto_mensual,
+tiempo_compra, financiamiento, credito, pronto, ingreso, notas (insights reales), resumen
 
-## SI EL VEHÍCULO NO ESTÁ DISPONIBLE
-NUNCA digas "no hay". Di: "No tengo ese exacto ahora mismo, pero puedo conseguirte algo similar o incluso mejor."
+## CUANDO TENGAS: nombre + teléfono + vehículo de interés
+Escribe AL FINAL (en línea nueva):
+LEAD_DATA:{"nombre":"...","telefono":"...","email":"...","vehiculo_interes":"...","tipo_vehiculo":"...","presupuesto_mensual":"...","tiempo_compra":"...","financiamiento":"...","credito":"...","pronto":"...","ingreso":"...","notas":"...","resumen":"...","agendo_cita":"Si/No","fuente":"Web"}
 
-## ESTRATEGIA DE VENTA
-- Recomienda solo 1 vehículo a la vez
-- Usa lenguaje simple, no técnico
-- Usa frases como: "Ese modelo se está moviendo rápido", "Viene con garantía hasta 100,000 millas — eso no lo da nadie más aquí en PR"
-
-## CIERRE (OBLIGATORIO)
-Siempre intentas cerrar: "¿Te queda mejor hoy o mañana?", "¿Mañana en la mañana o en la tarde?"
-
-## CAPTURA DE LEAD (CRÍTICO)
-Cuando tengas nombre, teléfono e intención, escribe EXACTAMENTE:
-CITA_CONFIRMADA:[nombre]|[telefono]|[presupuesto]|[vehiculo]|[credito]|PR Automotive Group Carolina
+## CIERRE
+Siempre intenta: "¿Te queda mejor hoy o mañana?" / "¿Mañana en la mañana o en la tarde?"
+Si duda: "Recuerda que recibimos tu trade-in aunque tenga deuda." / "Te lo llevamos — entregamos en toda la isla."
 
 ## OBJECIONES
 "Está caro" → "¿Qué pago mensual te haría sentido?"
-"Crédito malo" → "Trabajamos con clientes en esa situación — y tienes la garantía de crédito incluida."
-"No tengo inicial" → "Hay opciones con poco o nada. Si te consigo eso, ¿te interesa?"
+"Crédito malo" → "Trabajamos con eso — además tienes la garantía de crédito incluida. ¿Hace cuánto fue el detalle?"
+"No tengo inicial" → "Hay opciones con poco o nada de inicial. Si te consigo eso, ¿te interesa?"
 "Lo voy a pensar" → "¿Qué número en el pago haría que no tengas que pensarlo?"
+"Estoy comparando" → "¿Qué otras opciones has visto? Te digo honestamente si puedo mejorarte."
 
-## TONO
-Español natural de Puerto Rico. Seguro, directo, profesional. Como un vendedor que sabe lo que tiene.`;
+## SI EL VEHÍCULO NO ESTÁ
+Nunca digas "no hay". Di: "Ese modelo se mueve mucho. No tengo ese exacto ahora mismo, pero puedo conseguirte algo similar o mejor. ¿Lo buscas financiado o sería efectivo?"`;
 }
 
-/* ── TEXTAREA auto-resize ── */
-const ta = document.getElementById('ui');
-ta.addEventListener('input', () => {
-  ta.style.height = 'auto';
-  ta.style.height = Math.min(ta.scrollHeight, 100) + 'px';
+// ============================================================
+// VEHICLE MATCHING
+// ============================================================
+function findVehiculo(key) {
+  const k = key.toLowerCase();
+  return INVENTARIO.find(v => {
+    const full = `${v.ano} ${v.marca} ${v.modelo} ${v.sub_modelo_trim_level || ''}`.toLowerCase();
+    return k.includes((v.modelo || '').toLowerCase()) ||
+           k.includes((v.marca || '').toLowerCase()) ||
+           full.includes(k.substring(0, 15));
+  });
+}
+
+// ============================================================
+// SALES PITCH PER VEHICLE
+// ============================================================
+function getPitch(v) {
+  const nombre = `${v.ano} ${v.marca} ${v.modelo} ${v.sub_modelo_trim_level || ''}`.trim();
+  const precio = v.precio || v.precio_venta || '';
+  const mill   = v.millaje || '';
+  const desc   = v.descripcion || '';
+
+  const pitches = {
+    'GLC 300':    `<strong>El GLC 300 Coupe es pura declaración.</strong> Solo ${mill} millas, motor turbo europeo, tecnología de lujo — y sale con garantía hasta 100,000 millas. Nadie más en PR te da eso en un Mercedes. Tanque lleno incluido en la entrega.`,
+    'GV80':       `<strong>El Genesis GV80 Prestige — el secreto mejor guardado del mercado.</strong> V6 twin-turbo, ${mill} millas, acabados que rivalizan con el BMW X5 a menor precio. Garantía hasta 100k millas incluida.`,
+    'Tacoma':     `<strong>Tacoma TRD Sport ${v.ano} con solo ${mill} millas.</strong> Motor turbo de última generación, la pick up más confiable del mercado.${desc ? ' ' + desc + '.' : ''} Garantía hasta 100k millas.`,
+    'Corolla':    `<strong>El Corolla LE ${v.ano} — economía sin sacrificar nada.</strong> ${v.mpg || ''} MPG, CVT suave, ${mill} millas.${desc ? ' ' + desc + '.' : ''} Garantía hasta 100k millas — la decisión más inteligente.`,
+    'Pathfinder': `<strong>Pathfinder SV — 3 filas, V6, espacio de sobra.</strong> ${mill} millas, ${v.mpg || ''} MPG en carretera. Perfecta para la familia, garantía hasta 100k millas. ${desc}`,
+    'Tucson':     `<strong>El Tucson ${v.ano} — ${desc || 'lista para entrega inmediata'}.</strong> ${v.mpg || ''} MPG, solo ${mill} millas. Garantía hasta 100k millas incluida.`,
+    'Santa Cruz': `<strong>La Santa Cruz ${v.ano} — comodidad de SUV con utilidad de pick up.</strong> Solo ${mill} millas, prácticamente nueva. Motor eficiente y garantía hasta 100k millas.`,
+    'Carnival':   `<strong>La Kia Carnival ${v.ano} redefine el concepto de minivan.</strong> V6, ${mill} millas. Espacio premium para toda la familia con estilo. Garantía hasta 100k millas, entrega inmediata.`
+  };
+
+  for (const [key, text] of Object.entries(pitches)) {
+    if ((v.modelo || '').includes(key)) return text;
+  }
+  return `<strong>${nombre}</strong> — ${mill} millas, ${v.color || ''}, ${v.mpg || ''} MPG. ${precio}. Lista para entrega inmediata con garantía hasta 100,000 millas.`;
+}
+
+// ============================================================
+// RENDER VEHICLE CARD
+// ============================================================
+function renderCard(v) {
+  const msgs   = document.getElementById('messages');
+  const foto   = v.fotoweblink || v.foto || '';
+  const mill   = v.millaje || '';
+  const trim   = v.sub_modelo_trim_level || '';
+  const desc   = v.descripcion || '';
+  const precio = v.precio || v.precio_venta || '';
+  const vJSON  = encodeURIComponent(JSON.stringify(v));
+
+  const card = document.createElement('div');
+  card.className = 'v-card';
+  card.innerHTML = `
+    ${foto
+      ? `<img class="v-card-img" src="${foto}" alt="${v.modelo}" loading="lazy" onerror="this.style.display='none'">`
+      : `<div class="v-card-img-placeholder"><svg viewBox="0 0 24 24"><path d="M21 15l-5-5L5 21"/><path d="M17 3H7a2 2 0 00-2 2v14"/></svg><span>Foto disponible en el dealer</span></div>`
+    }
+    <div class="v-body">
+      <div class="v-title">${v.ano} ${v.marca}<br>${v.modelo} ${trim}</div>
+      <div class="v-badges">
+        <span class="badge">${mill} millas</span>
+        <span class="badge">${v.color || ''}</span>
+        <span class="badge">${v.clase || ''}</span>
+        ${desc ? `<span class="badge hot">⚡ Oferta</span>` : ''}
+      </div>
+      <div class="v-price">${precio}</div>
+      <div class="v-actions">
+        <button class="btn-primary" onclick="openPanel(decodeURIComponent('${vJSON}'))">Más detalles</button>
+        ${foto ? `<a href="${foto}" target="_blank" class="btn-photo"><svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-1.1 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>Foto</a>` : ''}
+      </div>
+    </div>`;
+  msgs.appendChild(card);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+// ============================================================
+// OPEN DETAIL PANEL
+// ============================================================
+function openPanel(vStr) {
+  const v     = typeof vStr === 'string' ? JSON.parse(vStr) : vStr;
+  const foto  = v.fotoweblink || v.foto || '';
+  const trim  = v.sub_modelo_trim_level || '';
+  const mill  = v.millaje || '';
+  const desc  = v.descripcion || '';
+  const precio = v.precio || v.precio_venta || '';
+
+  const img = document.getElementById('p-img');
+  if (foto) { img.src = foto; img.style.display = 'block'; } else { img.style.display = 'none'; }
+
+  document.getElementById('p-title').textContent  = `${v.ano} ${v.marca} ${v.modelo} ${trim}`.trim();
+  document.getElementById('p-price').textContent  = precio;
+  document.getElementById('p-specs').innerHTML = `
+    <div class="spec"><div class="spec-lbl">Millaje</div><div class="spec-val">${mill} millas</div></div>
+    <div class="spec"><div class="spec-lbl">Color</div><div class="spec-val">${v.color || '—'}</div></div>
+    <div class="spec"><div class="spec-lbl">Motor</div><div class="spec-val">${v.motor || '—'}</div></div>
+    <div class="spec"><div class="spec-lbl">Transmisión</div><div class="spec-val">${v.transmision || '—'}</div></div>
+    <div class="spec"><div class="spec-lbl">MPG</div><div class="spec-val">${v.mpg || '—'}</div></div>
+    <div class="spec"><div class="spec-lbl">Clase</div><div class="spec-val">${v.clase || '—'}</div></div>
+    ${desc ? `<div class="spec" style="grid-column:1/-1"><div class="spec-lbl">Nota especial</div><div class="spec-val" style="color:var(--red)">${desc}</div></div>` : ''}`;
+  document.getElementById('p-pitch').innerHTML = getPitch(v);
+
+  const photoLink = document.getElementById('p-photo-link');
+  if (foto) { photoLink.href = foto; photoLink.style.display = 'flex'; }
+  else { photoLink.style.display = 'none'; }
+
+  document.getElementById('panel').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+}
+
+function closePanel() {
+  document.getElementById('panel').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+
+// ============================================================
+// MESSAGE RENDERING
+// ============================================================
+function getTime() {
+  return new Date().toLocaleTimeString('es-PR',{hour:'2-digit',minute:'2-digit'});
+}
+
+function addMsg(text, role) {
+  const msgs = document.getElementById('messages');
+
+  // Extract directives
+  const vehiculoMatch = text.match(/MOSTRAR_VEHICULO:([^\n]+)/);
+  const leadMatch     = text.match(/LEAD_DATA:(\{[\s\S]*?\})/);
+  let clean = text
+    .replace(/MOSTRAR_VEHICULO:[^\n]*/g, '')
+    .replace(/LEAD_DATA:\{[\s\S]*?\}/g, '')
+    .trim();
+
+  // Render bubble
+  if (clean) {
+    const div = document.createElement('div');
+    div.className = `msg ${role}`;
+    div.innerHTML = `<div class="bubble">${clean.replace(/\n/g,'<br>')}</div><div class="msg-time">${getTime()}</div>`;
+    msgs.appendChild(div);
+  }
+
+  // Vehicle card
+  if (vehiculoMatch) {
+    const key = vehiculoMatch[1].trim();
+    const v   = findVehiculo(key);
+    if (v) setTimeout(() => renderCard(v), 350);
+  }
+
+  // Lead capture
+  if (leadMatch && !leadEnviado) {
+    try {
+      const parsed = JSON.parse(leadMatch[1]);
+      Object.assign(leadData, parsed);
+      setTimeout(() => enviarLead(leadData), 400);
+    } catch(err) { console.warn('Lead parse error', err); }
+  }
+
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+// ============================================================
+// SEND LEAD TO SHEET VIA DOPOST
+// ============================================================
+async function enviarLead(data) {
+  if (leadEnviado) return;
+  leadEnviado = true;
+
+  try {
+    await fetch(DOPOST_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+      mode: 'no-cors' // Google Apps Script requiere no-cors
+    });
+
+    // Banner de confirmación
+    const msgs   = document.getElementById('messages');
+    const banner = document.createElement('div');
+    banner.className = 'lead-ok';
+    banner.innerHTML = `✓ <strong>${data.nombre || 'Lead'}</strong> registrado — te contactamos al ${data.telefono || '—'}`;
+    msgs.appendChild(banner);
+    msgs.scrollTop = msgs.scrollHeight;
+
+  } catch(err) {
+    console.error('Lead send error:', err);
+    const msgs   = document.getElementById('messages');
+    const banner = document.createElement('div');
+    banner.className = 'err-banner';
+    banner.textContent = 'Hubo un error guardando la información. Por favor llámanos al (787) 555-0000.';
+    msgs.appendChild(banner);
+  }
+}
+
+// ============================================================
+// TYPING INDICATOR
+// ============================================================
+function showTyping() {
+  const msgs = document.getElementById('messages');
+  const d    = document.createElement('div');
+  d.className = 'msg bot'; d.id = 'typing';
+  d.innerHTML = `<div class="typing"><span></span><span></span><span></span></div>`;
+  msgs.appendChild(d);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+function hideTyping() {
+  const el = document.getElementById('typing');
+  if (el) el.remove();
+}
+
+// ============================================================
+// CALL CLAUDE API
+// ============================================================
+async function callClaude(userText) {
+  history.push({ role:'user', content:userText });
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({
+      model:    'claude-sonnet-4-20250514',
+      max_tokens: 1024,
+      system:   buildSystemPrompt(),
+      messages: history
+    })
+  });
+  const data  = await res.json();
+  const reply = data.content?.[0]?.text || 'Hubo un error de conexión. Intenta de nuevo.';
+  history.push({ role:'assistant', content:reply });
+  return reply;
+}
+
+// ============================================================
+// SEND MESSAGE
+// ============================================================
+async function send() {
+  if (isTyping) return;
+  const input = document.getElementById('txt');
+  const text  = input.value.trim();
+  if (!text) return;
+  input.value = ''; input.style.height = 'auto';
+  addMsg(text, 'user');
+  isTyping = true; showTyping();
+  try {
+    const reply = await callClaude(text);
+    hideTyping(); addMsg(reply, 'bot');
+  } catch(err) {
+    hideTyping();
+    addMsg('Tuve un problema de conexión. Escríbeme de nuevo o llámanos directamente.', 'bot');
+  }
+  isTyping = false;
+}
+
+function chip(btn) {
+  document.getElementById('txt').value = btn.textContent;
+  send();
+}
+
+// ── Input auto-resize + Enter to send ──
+document.getElementById('txt').addEventListener('input', function() {
+  this.style.height = 'auto';
+  this.style.height = Math.min(this.scrollHeight, 96) + 'px';
 });
-ta.addEventListener('keydown', e => {
+document.getElementById('txt').addEventListener('keydown', function(e) {
   if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
 });
 
-/* ── HELPERS ── */
-function esc(s) {
-  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-function md(t) {
-  return t
-    .replace(/CITA_CONFIRMADA:[^\n]*/g, '<span class="cita-tag">$&</span>')
-    .replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
-    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-    .replace(/\n/g, '<br>');
+// ============================================================
+// INIT
+// ============================================================
+function iniciarChat() {
+  const greeting = '¡Buenas! Soy DealerAmigo, tu asesor de PR Automotive Group. 🚗\n¿Qué tipo de vehículo estás buscando?';
+  history.push({ role:'assistant', content: greeting });
+  addMsg(greeting, 'bot');
 }
 
-function scrollBottom() {
-  const m = document.getElementById('msgs');
-  setTimeout(() => m.scrollTop = m.scrollHeight, 60);
-}
-
-function addMsg(role, text) {
-  const m = document.getElementById('msgs');
-  const w = document.createElement('div');
-  w.className = 'msg ' + role;
-  w.innerHTML = `<div class="bub">${md(text)}</div><div class="lbl">${role === 'bot' ? 'DealerAmigo · PR Group' : 'Tú'}</div>`;
-  m.appendChild(w);
-  scrollBottom();
-}
-
-function addTyping() {
-  const m = document.getElementById('msgs');
-  const w = document.createElement('div');
-  w.className = 'typing'; w.id = 'typing';
-  w.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
-  m.appendChild(w);
-  scrollBottom();
-}
-
-/* ── CAROUSEL dentro del chat ── */
-function addCarousel(vehicles) {
-  const m = document.getElementById('msgs');
-  const wrap = document.createElement('div');
-  wrap.className = 'carousel-wrap';
-
-  const nophSvg = `<div class="noph"><svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg></div>`;
-
-  wrap.innerHTML = `<div class="carousel-label">Opciones disponibles · Toca para más info</div>
-  <div class="carousel">${vehicles.map(v => {
-    const nombre = `${v.year} ${v.make} ${v.model}${v.trim ? ' ' + v.trim : ''}`;
-    const precio = v.price ? '$' + Number(String(v.price).replace(/[^0-9]/g, '')).toLocaleString() : 'Consultar';
-    const img = v.photo
-      ? `<img src="${esc(v.photo)}" alt="${esc(nombre)}" loading="lazy" onerror="this.parentElement.innerHTML='${nophSvg.replace(/'/g, "\\'")}'">` 
-      : nophSvg;
-    const nombreEsc = nombre.replace(/'/g, "\\'");
-    return `<div class="vcard" onclick="seleccionarAuto('${nombreEsc}')">
-      <div class="vci">${img}<div class="vcg"></div>
-        <div class="vcb"><span class="vb vbr">${esc(v.year)}</span><span class="vb vbd">Certified</span></div>
-      </div>
-      <div class="vcbody">
-        <h3>${esc(v.model)}${v.trim ? '<small style="font-size:11px;opacity:.35"> ' + esc(v.trim) + '</small>' : ''}</h3>
-        <p class="vcsub">Garantía 100K · Entrega inmediata</p>
-        <div class="vcprice">${precio}</div>
-        <div class="vcmeta">
-          <div class="vcm">${esc(v.mileage || '—')}</div>
-          <div class="vcm">${esc(v.color || '—')}</div>
-        </div>
-        <button class="vctap">Ver detalles →</button>
-      </div>
-    </div>`;
-  }).join('')}</div>`;
-
-  m.appendChild(wrap);
-  scrollBottom();
-}
-
-function seleccionarAuto(nombre) {
-  const t = `Me interesa el ${nombre}, dame más detalles`;
-  hist.push({ role: 'user', content: t });
-  addMsg('usr', t);
-  callAPI();
-}
-
-/* ── API ── */
-async function callAPI() {
-  document.getElementById('sb').disabled = true;
-  addTyping();
-  try {
-    const r = await fetch(API, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify({ action: 'chat', system: buildSystemPrompt(), messages: hist })
-    });
-    const d = await r.json();
-    document.getElementById('typing')?.remove();
-    const reply = (d && d.content && d.content[0] && d.content[0].text) || (d && d.error) || '⚠️ Error. Intenta de nuevo.';
-    hist.push({ role: 'assistant', content: reply });
-    addMsg('bot', reply);
-
-    // Si la respuesta menciona vehículos y hay inventario cargado, mostrar carousel
-    const lower = reply.toLowerCase();
-    const keywords = ['inventario', 'tengo', 'disponible', 'te puedo mostrar', 'opciones', 'vehículo', 'auto', 'carro'];
-    const shouldShowCards = inventario.length > 0 && keywords.some(k => lower.includes(k)) && !lower.includes('cita');
-    if (shouldShowCards) {
-      const subset = inventario.slice(0, 6);
-      addCarousel(subset);
-    }
-  } catch(e) {
-    document.getElementById('typing')?.remove();
-    addMsg('bot', '⚠️ Sin conexión. Intenta de nuevo.');
-  } finally {
-    document.getElementById('sb').disabled = false;
-  }
-}
-
-function send() {
-  const t = ta.value.trim();
-  if (!t) return;
-  ta.value = ''; ta.style.height = 'auto';
-  hist.push({ role: 'user', content: t });
-  addMsg('usr', t);
-  callAPI();
-}
-
-function chip(el) {
-  const t = el.textContent.trim();
-  el.closest('.welcome')?.remove();
-  hist.push({ role: 'user', content: t });
-  addMsg('usr', t);
-  callAPI();
-}
-
-/* ── Precargar inventario en background ── */
-async function loadInventory() {
-  try {
-    const r = await fetch(`${API}?action=inventory`);
-    const d = await r.json();
-    inventario = d.vehicles || [];
-  } catch(e) {
-    inventario = [];
-  }
-}
-
-loadInventory();
+// Cargar inventario en vivo al iniciar
+window.addEventListener('DOMContentLoaded', cargarInventario);
 </script>
 </body>
 </html>
