@@ -6,16 +6,11 @@
 <title>PR Automotive Group — DealerAmigo</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --red:#E8102A; --red-dark:#b50d21; --red-dim:#3a0a0f;
-    --black:#0a0a0a; --dark:#111; --card:#181818;
-    --border:#252525; --muted:#505050; --text:#f0f0f0; --sub:#777;
-  }
+  :root{--red:#E8102A;--red-dark:#b50d21;--red-dim:#3a0a0f;--black:#0a0a0a;--dark:#111;--card:#181818;--border:#252525;--muted:#505050;--text:#f0f0f0;--sub:#777}
   *{margin:0;padding:0;box-sizing:border-box}
   html,body{height:100%;overflow:hidden}
   body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;display:flex;flex-direction:column;height:100dvh}
 
-  /* ── HEADER ── */
   header{background:var(--dark);border-bottom:1px solid var(--border);padding:11px 16px;display:flex;align-items:center;gap:11px;flex-shrink:0}
   .logo-badge{background:var(--red);color:#fff;font-family:'Bebas Neue',sans-serif;font-size:17px;width:36px;height:36px;border-radius:7px;display:flex;align-items:center;justify-content:center;letter-spacing:1px}
   .logo-text strong{display:block;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:2px}
@@ -24,7 +19,6 @@
   .live-dot{width:7px;height:7px;background:#22c55e;border-radius:50%;animation:blink 2s infinite}
   @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 
-  /* ── MESSAGES ── */
   #messages{flex:1;overflow-y:auto;padding:14px 14px 8px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth}
   #messages::-webkit-scrollbar{width:3px}
   #messages::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
@@ -40,26 +34,34 @@
   .msg-time{font-size:9px;color:var(--sub);margin-top:3px;padding:0 3px}
   .msg.user .msg-time{text-align:right}
 
-  /* ── VEHICLE CARD ── */
+  /* SLOT PICKER */
+  .slot-picker{align-self:flex-start;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;width:290px;animation:up .3s ease}
+  .slot-picker-title{font-size:12px;color:var(--sub);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+  .slot-day{margin-bottom:10px}
+  .slot-day-label{font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px}
+  .slot-btns{display:flex;gap:7px;flex-wrap:wrap}
+  .slot-btn{background:transparent;border:1px solid var(--border);color:var(--sub);font-family:'DM Sans',sans-serif;font-size:12px;padding:7px 12px;border-radius:8px;cursor:pointer;transition:all .15s}
+  .slot-btn:hover{border-color:var(--red);color:var(--red)}
+  .slot-btn.selected{background:var(--red);border-color:var(--red);color:#fff}
+
+  /* VEHICLE CARD */
   .v-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;width:272px;align-self:flex-start;animation:up .3s ease}
   .v-card-img{width:100%;height:162px;object-fit:cover;display:block;background:#1a1a1a}
-  .v-card-img-placeholder{width:100%;height:162px;background:linear-gradient(135deg,#1a1a1a,#222);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--sub);font-size:12px}
-  .v-card-img-placeholder svg{width:32px;height:32px;fill:var(--muted)}
+  .v-no-img{width:100%;height:100px;display:flex;align-items:center;justify-content:center;background:#141414;color:var(--sub);font-size:12px;gap:6px}
   .v-body{padding:13px}
   .v-title{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px;line-height:1.1;margin-bottom:7px}
   .v-badges{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:9px}
   .badge{font-size:10px;padding:2px 7px;border-radius:20px;background:var(--border);color:var(--sub)}
   .badge.hot{background:var(--red-dim);color:var(--red);border:1px solid #5a1010}
   .v-price{font-size:21px;font-weight:700;color:var(--red);margin-bottom:11px}
-  .v-actions{display:flex;gap:8px}
+  .v-actions{display:flex;gap:7px}
   .btn-primary{flex:1;background:var(--red);color:#fff;border:none;border-radius:9px;padding:10px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s}
   .btn-primary:hover{background:var(--red-dark)}
-  .btn-photo{background:transparent;border:1px solid var(--border);color:var(--sub);border-radius:9px;padding:10px 11px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:5px;transition:border-color .15s,color .15s;white-space:nowrap}
+  .btn-photo{background:transparent;border:1px solid var(--border);color:var(--sub);border-radius:9px;padding:10px 11px;font-family:'DM Sans',sans-serif;font-size:12px;text-decoration:none;display:flex;align-items:center;gap:5px;transition:all .15s;white-space:nowrap}
   .btn-photo:hover{border-color:var(--red);color:var(--red)}
-  .btn-photo svg{width:13px;height:13px;fill:currentColor}
 
-  /* ── DETAIL PANEL ── */
-  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:99;opacity:0;pointer-events:none;transition:opacity .3s}
+  /* PANEL */
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:99;opacity:0;pointer-events:none;transition:opacity .3s}
   .overlay.open{opacity:1;pointer-events:all}
   .panel{position:fixed;bottom:0;left:0;right:0;background:var(--dark);border-top:1px solid var(--border);border-radius:18px 18px 0 0;padding:18px 15px 34px;z-index:100;transform:translateY(100%);transition:transform .33s cubic-bezier(.32,.72,0,1);max-height:90dvh;overflow-y:auto}
   .panel.open{transform:translateY(0)}
@@ -74,23 +76,20 @@
   .panel-pitch{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:11px;padding:13px;font-size:13px;line-height:1.65;color:var(--sub);margin-bottom:14px}
   .panel-pitch strong{color:var(--text)}
   .panel-photo-link{display:flex;align-items:center;gap:8px;background:var(--red-dim);border:1px solid #5a1010;border-radius:9px;padding:11px 13px;color:var(--red);font-size:13px;font-weight:600;text-decoration:none;margin-bottom:14px}
-  .panel-photo-link svg{width:15px;height:15px;fill:var(--red);flex-shrink:0}
   .btn-close{width:100%;background:transparent;border:1px solid var(--border);color:var(--sub);border-radius:9px;padding:10px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
 
-  /* ── TYPING ── */
+  /* TYPING */
   .typing{background:var(--card);border:1px solid var(--border);border-bottom-left-radius:3px;padding:11px 15px;border-radius:15px;display:flex;gap:4px;align-items:center}
   .typing span{width:5px;height:5px;background:var(--sub);border-radius:50%;animation:dot 1.2s infinite}
   .typing span:nth-child(2){animation-delay:.2s}
   .typing span:nth-child(3){animation-delay:.4s}
   @keyframes dot{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
 
-  /* ── CHIPS ── */
   #chips{display:flex;gap:7px;padding:0 14px 9px;overflow-x:auto;flex-shrink:0}
   #chips::-webkit-scrollbar{display:none}
   .chip{background:transparent;border:1px solid var(--border);color:var(--sub);font-family:'DM Sans',sans-serif;font-size:11px;padding:5px 11px;border-radius:20px;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0}
   .chip:hover{border-color:var(--red);color:var(--red)}
 
-  /* ── INPUT ── */
   #input-row{background:var(--dark);border-top:1px solid var(--border);padding:11px 14px;display:flex;gap:9px;align-items:flex-end;flex-shrink:0}
   #txt{flex:1;background:var(--card);border:1px solid var(--border);border-radius:19px;padding:9px 15px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;resize:none;max-height:96px;line-height:1.4;outline:none;transition:border-color .2s}
   #txt:focus{border-color:var(--red)}
@@ -100,20 +99,14 @@
   #send:active{transform:scale(.92)}
   #send svg{width:15px;height:15px;fill:#fff}
 
-  /* ── FOOTER ── */
   .footer{text-align:center;font-size:9px;color:var(--muted);padding:3px 0 7px;letter-spacing:2px;text-transform:uppercase;flex-shrink:0}
 
-  /* ── BANNERS ── */
-  .lead-ok{background:linear-gradient(135deg,#14532d,#166534);border:1px solid #22c55e33;border-radius:11px;padding:11px 13px;font-size:12px;color:#86efac;display:flex;align-items:center;gap:7px;animation:up .3s ease;align-self:flex-start;max-width:88%}
+  .lead-ok{background:linear-gradient(135deg,#14532d,#166534);border:1px solid #22c55e33;border-radius:11px;padding:11px 13px;font-size:12px;color:#86efac;display:flex;align-items:flex-start;gap:7px;animation:up .3s ease;align-self:flex-start;max-width:88%;line-height:1.5}
   .err-banner{background:#2a0a0a;border:1px solid #5a1010;border-radius:11px;padding:10px 13px;font-size:12px;color:#f87171;align-self:flex-start;max-width:88%}
-
-  /* ── INVENTORY LOADING ── */
-  .inv-loading{align-self:flex-start;font-size:12px;color:var(--sub);padding:8px 4px}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <header>
   <div class="logo-badge">PR</div>
   <div class="logo-text">
@@ -123,10 +116,8 @@
   <div class="live"><div class="live-dot"></div>En línea</div>
 </header>
 
-<!-- MESSAGES -->
 <div id="messages"></div>
 
-<!-- QUICK CHIPS -->
 <div id="chips">
   <button class="chip" onclick="chip(this)">Ver inventario</button>
   <button class="chip" onclick="chip(this)">Necesito financiamiento</button>
@@ -136,7 +127,6 @@
   <button class="chip" onclick="chip(this)">Pick ups disponibles</button>
 </div>
 
-<!-- INPUT -->
 <div id="input-row">
   <textarea id="txt" placeholder="Escríbeme aquí..." rows="1"></textarea>
   <button id="send" onclick="send()">
@@ -145,7 +135,7 @@
 </div>
 <div class="footer">Powered by DealerAmigo</div>
 
-<!-- DETAIL PANEL -->
+<!-- Detail Panel -->
 <div class="overlay" id="overlay" onclick="closePanel()"></div>
 <div class="panel" id="panel">
   <div class="panel-handle"></div>
@@ -155,252 +145,280 @@
   <div class="panel-specs" id="p-specs"></div>
   <div class="panel-pitch" id="p-pitch"></div>
   <a id="p-photo-link" href="#" target="_blank" class="panel-photo-link" style="display:none">
-    <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-1.1 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
-    Ver foto del vehículo
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-1.1 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+    Ver foto del vehículo (abre en nueva pestaña)
   </a>
   <button class="btn-close" onclick="closePanel()">← Volver al chat</button>
 </div>
 
 <script>
-// ============================================================
-// CONFIGURATION — Reemplaza con tus Web App URLs reales
-// ============================================================
-const DOGET_URL  = 'https://script.google.com/macros/s/AKfycbx6DfjJiceNNlFOuwILv5sI_fpQbzGBupMQgt5ukdb64_0tDwl0OSe_vebQTVSfw9SetA/exec';
-const DOPOST_URL = 'https://script.google.com/macros/s/AKfycbxyPVn1moxv8CZR6Fp-n2QdbFs8DlDJZfCiXiZAROiNKao2U21xoVKwJ73H3N0dYug/exec';
+// ── CONFIG ── Reemplaza con tus Web App URLs reales tras desplegar en Apps Script
+const BACKEND_URL = 'https://script.google.com/macros/s/TU_DEPLOYMENT_ID/exec';
 
-// ============================================================
-// STATE
-// ============================================================
-let INVENTARIO   = [];      // Cargado en vivo desde Sheet
-let history      = [];      // Historial para Claude API
-let leadData     = {};      // Datos del lead acumulados
-let leadEnviado  = false;
-let isTyping     = false;
+// ── STATE ──
+let INVENTARIO  = [];
+let SLOTS       = [];   // Slots de calendario disponibles
+let history     = [];
+let leadData    = {};
+let leadEnviado = false;
+let isTyping    = false;
 
-// ============================================================
-// LOAD INVENTORY ON START
-// ============================================================
-async function cargarInventario() {
+// ── PITCHES ──
+const PITCHES = {
+  'GLC 300':    (v) => `<strong>El GLC 300 Coupe es pura declaración.</strong> Solo ${v.millaje} millas, motor turbo europeo, tecnología de lujo — y sale con garantía hasta 100,000 millas. Nadie más en PR te da eso en un Mercedes.`,
+  'GV80':       (v) => `<strong>El Genesis GV80 Prestige — el secreto del mercado.</strong> V6 twin-turbo, ${v.millaje} millas, acabados que rivalizan con el BMW X5 a menor precio. Garantía hasta 100k millas.`,
+  'Tacoma':     (v) => `<strong>Tacoma TRD Sport ${v.ano} con solo ${v.millaje} millas.</strong> La pick up más confiable del mercado.${v.descripcion ? ' '+v.descripcion+'.' : ''} Garantía hasta 100k millas.`,
+  'Corolla':    (v) => `<strong>Corolla LE ${v.ano} — economía sin sacrificar nada.</strong> ${v.mpg} MPG, ${v.millaje} millas.${v.descripcion ? ' '+v.descripcion+'.' : ''} Garantía hasta 100k millas.`,
+  'Pathfinder': (v) => `<strong>Pathfinder SV — 3 filas, V6, espacio de sobra.</strong> ${v.millaje} millas, ${v.mpg} MPG. Perfecta para la familia. ${v.descripcion || ''} Garantía hasta 100k millas.`,
+  'Tucson':     (v) => `<strong>Tucson ${v.ano} — ${v.descripcion || 'lista para entrega inmediata'}.</strong> ${v.mpg} MPG, solo ${v.millaje} millas. Garantía hasta 100k millas.`,
+  'Santa Cruz': (v) => `<strong>Santa Cruz ${v.ano} — comodidad de SUV, utilidad de pick up.</strong> Solo ${v.millaje} millas. Garantía hasta 100k millas.`,
+  'Carnival':   (v) => `<strong>Kia Carnival ${v.ano} — minivan redefinida.</strong> V6, ${v.millaje} millas. Espacio premium para la familia. Garantía hasta 100k millas.`
+};
+
+function getPitch(v) {
+  for (const [k, fn] of Object.entries(PITCHES)) {
+    if ((v.modelo||'').includes(k)) return fn(v);
+  }
+  const precio = v.precio || v.precio_venta || '';
+  return `<strong>${v.ano} ${v.marca} ${v.modelo}</strong> — ${v.millaje} millas, ${v.color}, ${v.mpg} MPG. ${precio}. Garantía hasta 100,000 millas.`;
+}
+
+// ── LOAD DATA FROM BACKEND ──
+async function cargarDatos() {
   try {
-    const res  = await fetch(DOGET_URL);
+    const res  = await fetch(BACKEND_URL);
     const json = await res.json();
-    if (json.status === 'ok' && Array.isArray(json.inventario)) {
-      INVENTARIO = json.inventario;
-      console.log(`✅ Inventario cargado: ${INVENTARIO.length} unidades`);
+    if (json.status === 'ok') {
+      if (Array.isArray(json.inventario)) INVENTARIO = json.inventario;
+      if (Array.isArray(json.slots))     SLOTS      = json.slots;
     }
   } catch (err) {
-    console.warn('⚠️ No se pudo cargar inventario en vivo. Usando fallback.');
-    INVENTARIO = FALLBACK_INVENTORY;
+    console.warn('Backend no disponible, usando fallback:', err.message);
+    INVENTARIO = FALLBACK_INV;
+    SLOTS      = buildFallbackSlots();
   }
   iniciarChat();
 }
 
-// ============================================================
-// FALLBACK INVENTORY (si el Sheet no responde)
-// ============================================================
-const FALLBACK_INVENTORY = [
-  { ano:'2026', marca:'Hyundai', modelo:'Santa Cruz', sub_modelo_trim_level:'SE', motor:'4 cilindros', transmision:'8-speed w/shiftronic', mpg:'22/22', color:'Gris', precio:'$37,995', millaje:'20', fotoweblink:'', clase:'Pick Up', descripcion:'', disponibles:'Disponible' },
-  { ano:'2023', marca:'Mercedes-Benz', modelo:'GLC 300', sub_modelo_trim_level:'Coupe', motor:'2.0L Turbo', transmision:'9-speed Auto', mpg:'20/20', color:'Negra', precio:'$52,995', millaje:'17k', fotoweblink:'https://apicdn.inventario360.com/cdn-cgi/image/width=640,height=480,fit=cover,quality=100,onerror=redirect/vehicles/oPAa7Wj5/media_69e640bca6057.jpg', clase:'Luxury', descripcion:'', disponibles:'Disponible' },
-  { ano:'2024', marca:'Genesis', modelo:'GV80', sub_modelo_trim_level:'Prestige', motor:'3.5L Twin-Turbo V6', transmision:'8-speed Auto', mpg:'18/18', color:'Blanca Perla', precio:'$55,595', millaje:'18k', fotoweblink:'https://apicdn.inventario360.com/cdn-cgi/image/width=1024,height=768,fit=cover,quality=100,onerror=redirect/vehicles/oPAa7Wj5/media_69d558fc95b25.jpg', clase:'De Lujo', descripcion:'', disponibles:'Disponible' },
-  { ano:'2024', marca:'Kia', modelo:'Carnival', sub_modelo_trim_level:'', motor:'V6', transmision:'8-speed', mpg:'19/19', color:'Blanca', precio:'$30,995', millaje:'28k', fotoweblink:'https://apicdn.inventario360.com/cdn-cgi/image/width=1024,height=768,fit=cover,quality=100,onerror=redirect/vehicles/oPAa7Wj5/media_686bf9396392c.png', clase:'Mini-Van', descripcion:'', disponibles:'Disponible' },
-  { ano:'2025', marca:'Toyota', modelo:'Tacoma', sub_modelo_trim_level:'2WD TRD Sport', motor:'4 cilindros Turbo', transmision:'8 velocidades', mpg:'20/24', color:'Gris Cemento', precio:'$47,995', millaje:'10', fotoweblink:'https://apicdn.inventario360.com/cdn-cgi/image/width=1024,height=768,fit=cover,quality=100,onerror=redirect/vehicles/oPAa7Wj5/media_69ac5fbd1830e.jpg', clase:'Pick Up', descripcion:'Oferta especial si llegas con trade-in', disponibles:'Disponible' },
-  { ano:'2024', marca:'Toyota', modelo:'Corolla', sub_modelo_trim_level:'LE', motor:'4 cilindros', transmision:'CVT', mpg:'31/31', color:'Gris Cemento', precio:'$23,995', millaje:'28922', fotoweblink:'https://apicdn.inventario360.com/cdn-cgi/image/width=640,height=480,fit=cover,quality=100,onerror=redirect/vehicles/oPAa7Wj5/media_69496b3b6761a.jpg', clase:'Económico', descripcion:'Oferta especial para primeros compradores', disponibles:'Disponible' },
-  { ano:'2023', marca:'Nissan', modelo:'Pathfinder', sub_modelo_trim_level:'SV', motor:'V6', transmision:'CVT', mpg:'20/27', color:'Gris', precio:'$28,995', millaje:'42546', fotoweblink:'https://apicdn.inventario360.com/cdn-cgi/image/width=1024,height=768,fit=cover,quality=100,onerror=redirect/vehicles/oPAa7Wj5/media_68c887457bd0b.jpg', clase:'3 Filas', descripcion:'Super espaciosa, potente y deslumbrante', disponibles:'Disponible' },
-  { ano:'2025', marca:'Hyundai', modelo:'Tucson', sub_modelo_trim_level:'', motor:'4 cilindros', transmision:'8-speed Auto', mpg:'26/31', color:'Gris', precio:'$28,996', millaje:'16', fotoweblink:'', clase:'SUV', descripcion:'Ruleta de Ofertas — pagos desde $368/mes', disponibles:'Disponible' }
+// ── FALLBACK INVENTORY ──
+const FALLBACK_INV = [
+  {ano:'2023',marca:'Mercedes-Benz',modelo:'GLC 300',sub_modelo_trim_level:'Coupe',motor:'2.0L Turbo',transmision:'9-speed Auto',mpg:'20/20',color:'Negra',precio:'$52,995',millaje:'17k',fotoweblink:'https://apicdn.inventario360.com/cdn-cgi/image/width=640,height=480,fit=cover,quality=100,onerror=redirect/vehicles/oPAa7Wj5/media_69e640bca6057.jpg',clase:'Luxury',descripcion:''},
+  {ano:'2024',marca:'Genesis',modelo:'GV80',sub_modelo_trim_level:'Prestige',motor:'3.5L Twin-Turbo V6',transmision:'8-speed Auto',mpg:'18/18',color:'Blanca Perla',precio:'$55,595',millaje:'18k',fotoweblink:'https://apicdn.inventario360.com/cdn-cgi/image/width=1024,height=768,fit=cover,quality=100,onerror=redirect/vehicles/oPAa7Wj5/media_69d558fc95b25.jpg',clase:'De Lujo',descripcion:''},
+  {ano:'2025',marca:'Toyota',modelo:'Tacoma',sub_modelo_trim_level:'2WD TRD Sport',motor:'4 cil Turbo',transmision:'8 velocidades',mpg:'20/24',color:'Gris Cemento',precio:'$47,995',millaje:'10',fotoweblink:'https://apicdn.inventario360.com/cdn-cgi/image/width=1024,height=768,fit=cover,quality=100,onerror=redirect/vehicles/oPAa7Wj5/media_69ac5fbd1830e.jpg',clase:'Pick Up',descripcion:'Oferta especial con trade-in'},
+  {ano:'2024',marca:'Toyota',modelo:'Corolla',sub_modelo_trim_level:'LE',motor:'4 cil',transmision:'CVT',mpg:'31/31',color:'Gris Cemento',precio:'$23,995',millaje:'28,922',fotoweblink:'https://apicdn.inventario360.com/cdn-cgi/image/width=640,height=480,fit=cover,quality=100,onerror=redirect/vehicles/oPAa7Wj5/media_69496b3b6761a.jpg',clase:'Económico',descripcion:'Oferta para primeros compradores'},
+  {ano:'2023',marca:'Nissan',modelo:'Pathfinder',sub_modelo_trim_level:'SV',motor:'V6',transmision:'CVT',mpg:'20/27',color:'Gris',precio:'$28,995',millaje:'42,546',fotoweblink:'https://apicdn.inventario360.com/cdn-cgi/image/width=1024,height=768,fit=cover,quality=100,onerror=redirect/vehicles/oPAa7Wj5/media_68c887457bd0b.jpg',clase:'3 Filas',descripcion:'Super espaciosa'},
+  {ano:'2024',marca:'Kia',modelo:'Carnival',sub_modelo_trim_level:'',motor:'V6',transmision:'8-speed',mpg:'19/19',color:'Blanca',precio:'$30,995',millaje:'28k',fotoweblink:'https://apicdn.inventario360.com/cdn-cgi/image/width=1024,height=768,fit=cover,quality=100,onerror=redirect/vehicles/oPAa7Wj5/media_686bf9396392c.png',clase:'Mini-Van',descripcion:''},
+  {ano:'2025',marca:'Hyundai',modelo:'Tucson',sub_modelo_trim_level:'',motor:'4 cil',transmision:'8-speed Auto',mpg:'26/31',color:'Gris',precio:'$28,996',millaje:'16',fotoweblink:'',clase:'SUV',descripcion:'Ruleta de Ofertas — pagos desde $368/mes'}
 ];
 
-// ============================================================
-// BUILD SYSTEM PROMPT WITH LIVE INVENTORY
-// ============================================================
-function buildSystemPrompt() {
-  const invTexto = INVENTARIO.map(v => {
-    const mill  = v.millaje || v.millaje_o_km || '';
-    const foto  = v.fotoweblink || v.foto || '';
-    const desc  = v.descripcion || v.descripcion_o_notas || '';
-    const trim  = v.sub_modelo_trim_level || v.trim || '';
-    return `• ${v.ano} ${v.marca} ${v.modelo} ${trim} | ${mill} millas | ${v.precio || v.precio_venta || ''} | ${v.color || ''} | ${v.clase || ''} | Foto: ${foto || 'sin foto'} | ${desc}`;
+function buildFallbackSlots() {
+  const dias = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  const today = new Date();
+  const out = [];
+  for (let i = 1; i <= 4 && out.length < 2; i++) {
+    const d = new Date(today); d.setDate(today.getDate()+i);
+    if (d.getDay()===0) continue;
+    const label = `${dias[d.getDay()-1] || 'Sábado'} ${d.getDate()}`;
+    const s9  = new Date(d); s9.setHours(9,0,0,0);
+    const s14 = new Date(d); s14.setHours(14,0,0,0);
+    out.push({ dia: label, date: d.toISOString(), slots:[
+      { key:'morning',  label:'9:00 AM', datetime: s9.toISOString(),  display:`${label} a las 9:00 AM`  },
+      { key:'afternoon',label:'2:00 PM', datetime: s14.toISOString(), display:`${label} a las 2:00 PM` }
+    ]});
+  }
+  return out;
+}
+
+// ── SYSTEM PROMPT ──
+function buildPrompt() {
+  const inv = INVENTARIO.map(v => {
+    const t   = v.sub_modelo_trim_level || v.trim || '';
+    const foto = v.fotoweblink || v.foto || '';
+    return `• ${v.ano} ${v.marca} ${v.modelo} ${t} | ${v.millaje} millas | ${v.precio||v.precio_venta||''} | ${v.color||''} | ${v.clase||''} | Foto: ${foto||'sin foto'} | ${v.descripcion||''}`;
   }).join('\n');
 
-  return `Eres DealerAmigo, el asesor de ventas virtual de PR Automotive Group en Puerto Rico.
+  const slotsTexto = SLOTS.map(d =>
+    d.slots.map(s => `• ${s.display}`).join('\n')
+  ).join('\n');
+
+  return `Eres DealerAmigo, asesor de ventas virtual de PR Automotive Group en Puerto Rico.
 Eres un vendedor experto, no un chatbot. Guías la conversación, calificas al cliente y cierras citas.
 
 ## DEALER
-PR Automotive Group — Marginal Los Angeles, Carolina PR (frente al aeropuerto SJU).
+PR Automotive Group — Marginal Los Angeles, Carolina PR (frente al Aeropuerto SJU).
 - Único dealer en PR: garantía hasta 100,000 millas en usados + protección de crédito incluida
 - Tanque lleno en cada entrega. Entrega disponible en toda la isla. Trade-in con o sin deuda.
 
-## INVENTARIO EN VIVO
-${invTexto}
+## INVENTARIO
+${inv}
 
-## REGLAS DE CONVERSACIÓN
-- Máximo 3 líneas por mensaje
-- UNA sola pregunta por mensaje
-- Siempre controlas la dirección de la conversación
-- Nunca dejes la conversación abierta sin una pregunta o próximo paso
-- Tono: español natural de Puerto Rico, seguro, directo, cálido — nunca grosero ni brusco
+## SLOTS DE CITA DISPONIBLES (verificados en calendario)
+${slotsTexto}
+
+## REGLAS
+- Máximo 3 líneas por mensaje. UNA sola pregunta por mensaje.
+- Tono: español natural de PR, cálido, seguro, profesional. Nunca brusco ni grosero.
+- Siempre controlas la dirección de la conversación.
+
+## FLUJO DE CITA
+Cuando el cliente muestre interés en agendar:
+1. Ofrece los 2 primeros días disponibles del calendario como opciones (no los listes todos)
+2. Cuando elija día, ofrece mañana o tarde de ese día
+3. Pregunta si hay algún email para enviarle la confirmación (explica que es para la invitación del evento): "¿Tienes un email donde pueda enviarte la confirmación? Es opcional — si no, te contactamos directo."
+4. Pregunta si está bien que le contacten: "¿Está bien si uno de nuestros asesores te llama antes de la cita para preparar todo?"
+5. Una vez confirmado todo → genera LEAD_DATA
 
 ## MOSTRAR VEHÍCULO
-Cuando recomiendes un vehículo, escribe AL FINAL del mensaje (en línea nueva):
+Al recomendar un vehículo escribe al final:
 MOSTRAR_VEHICULO:[año] [marca] [modelo]
-Ejemplo: MOSTRAR_VEHICULO:2023 Mercedes-Benz GLC 300
 
-## INFORMACIÓN QUE DEBES CAPTURAR (naturalmente, sin interrogatorio)
-nombre, telefono, email, vehiculo_interes, tipo_vehiculo, presupuesto_mensual,
-tiempo_compra, financiamiento, credito, pronto, ingreso, notas (insights reales), resumen
-
-## CUANDO TENGAS: nombre + teléfono + vehículo de interés
-Escribe AL FINAL (en línea nueva):
-LEAD_DATA:{"nombre":"...","telefono":"...","email":"...","vehiculo_interes":"...","tipo_vehiculo":"...","presupuesto_mensual":"...","tiempo_compra":"...","financiamiento":"...","credito":"...","pronto":"...","ingreso":"...","notas":"...","resumen":"...","agendo_cita":"Si/No","fuente":"Web"}
-
-## CIERRE
-Siempre intenta: "¿Te queda mejor hoy o mañana?" / "¿Mañana en la mañana o en la tarde?"
-Si duda: "Recuerda que recibimos tu trade-in aunque tenga deuda." / "Te lo llevamos — entregamos en toda la isla."
+## CAPTURA DE LEAD
+Cuando tengas nombre + teléfono + interés, escribe al final:
+LEAD_DATA:{"nombre":"","telefono":"","email":"","vehiculo_interes":"","tipo_vehiculo":"","presupuesto_mensual":"","tiempo_compra":"","financiamiento":"","credito":"","pronto":"","ingreso":"","notas":"","resumen":"","agendo_cita":"Si/No","datetime_cita":"ISO string del slot seleccionado","fecha_display":"Martes 6 de mayo","hora_display":"9:00 AM","fuente":"Web"}
 
 ## OBJECIONES
 "Está caro" → "¿Qué pago mensual te haría sentido?"
-"Crédito malo" → "Trabajamos con eso — además tienes la garantía de crédito incluida. ¿Hace cuánto fue el detalle?"
-"No tengo inicial" → "Hay opciones con poco o nada de inicial. Si te consigo eso, ¿te interesa?"
+"Crédito malo" → "Trabajamos con eso. ¿Hace cuánto fue el detalle?"
+"No tengo inicial" → "Hay opciones con poco o nada de inicial. ¿Te interesa?"
 "Lo voy a pensar" → "¿Qué número en el pago haría que no tengas que pensarlo?"
-"Estoy comparando" → "¿Qué otras opciones has visto? Te digo honestamente si puedo mejorarte."
 
-## SI EL VEHÍCULO NO ESTÁ
-Nunca digas "no hay". Di: "Ese modelo se mueve mucho. No tengo ese exacto ahora mismo, pero puedo conseguirte algo similar o mejor. ¿Lo buscas financiado o sería efectivo?"`;
+## SI NO HAY INVENTARIO EXACTO
+Nunca digas "no hay". Di: "Ese modelo se mueve mucho — no tengo ese exacto ahora mismo pero puedo conseguirte algo similar o mejor. ¿Financiado o efectivo?"`;
 }
 
-// ============================================================
-// VEHICLE MATCHING
-// ============================================================
+// ── FIND VEHICLE ──
 function findVehiculo(key) {
   const k = key.toLowerCase();
-  return INVENTARIO.find(v => {
-    const full = `${v.ano} ${v.marca} ${v.modelo} ${v.sub_modelo_trim_level || ''}`.toLowerCase();
-    return k.includes((v.modelo || '').toLowerCase()) ||
-           k.includes((v.marca || '').toLowerCase()) ||
-           full.includes(k.substring(0, 15));
-  });
+  return INVENTARIO.find(v =>
+    k.includes((v.modelo||'').toLowerCase()) ||
+    k.includes((v.marca||'').toLowerCase())
+  );
 }
 
-// ============================================================
-// SALES PITCH PER VEHICLE
-// ============================================================
-function getPitch(v) {
-  const nombre = `${v.ano} ${v.marca} ${v.modelo} ${v.sub_modelo_trim_level || ''}`.trim();
-  const precio = v.precio || v.precio_venta || '';
-  const mill   = v.millaje || '';
-  const desc   = v.descripcion || '';
-
-  const pitches = {
-    'GLC 300':    `<strong>El GLC 300 Coupe es pura declaración.</strong> Solo ${mill} millas, motor turbo europeo, tecnología de lujo — y sale con garantía hasta 100,000 millas. Nadie más en PR te da eso en un Mercedes. Tanque lleno incluido en la entrega.`,
-    'GV80':       `<strong>El Genesis GV80 Prestige — el secreto mejor guardado del mercado.</strong> V6 twin-turbo, ${mill} millas, acabados que rivalizan con el BMW X5 a menor precio. Garantía hasta 100k millas incluida.`,
-    'Tacoma':     `<strong>Tacoma TRD Sport ${v.ano} con solo ${mill} millas.</strong> Motor turbo de última generación, la pick up más confiable del mercado.${desc ? ' ' + desc + '.' : ''} Garantía hasta 100k millas.`,
-    'Corolla':    `<strong>El Corolla LE ${v.ano} — economía sin sacrificar nada.</strong> ${v.mpg || ''} MPG, CVT suave, ${mill} millas.${desc ? ' ' + desc + '.' : ''} Garantía hasta 100k millas — la decisión más inteligente.`,
-    'Pathfinder': `<strong>Pathfinder SV — 3 filas, V6, espacio de sobra.</strong> ${mill} millas, ${v.mpg || ''} MPG en carretera. Perfecta para la familia, garantía hasta 100k millas. ${desc}`,
-    'Tucson':     `<strong>El Tucson ${v.ano} — ${desc || 'lista para entrega inmediata'}.</strong> ${v.mpg || ''} MPG, solo ${mill} millas. Garantía hasta 100k millas incluida.`,
-    'Santa Cruz': `<strong>La Santa Cruz ${v.ano} — comodidad de SUV con utilidad de pick up.</strong> Solo ${mill} millas, prácticamente nueva. Motor eficiente y garantía hasta 100k millas.`,
-    'Carnival':   `<strong>La Kia Carnival ${v.ano} redefine el concepto de minivan.</strong> V6, ${mill} millas. Espacio premium para toda la familia con estilo. Garantía hasta 100k millas, entrega inmediata.`
-  };
-
-  for (const [key, text] of Object.entries(pitches)) {
-    if ((v.modelo || '').includes(key)) return text;
-  }
-  return `<strong>${nombre}</strong> — ${mill} millas, ${v.color || ''}, ${v.mpg || ''} MPG. ${precio}. Lista para entrega inmediata con garantía hasta 100,000 millas.`;
-}
-
-// ============================================================
-// RENDER VEHICLE CARD
-// ============================================================
+// ── RENDER VEHICLE CARD ──
 function renderCard(v) {
-  const msgs   = document.getElementById('messages');
-  const foto   = v.fotoweblink || v.foto || '';
-  const mill   = v.millaje || '';
-  const trim   = v.sub_modelo_trim_level || '';
-  const desc   = v.descripcion || '';
+  const msgs  = document.getElementById('messages');
+  const foto  = v.fotoweblink || v.foto || '';
+  const trim  = v.sub_modelo_trim_level || '';
+  const desc  = v.descripcion || '';
   const precio = v.precio || v.precio_venta || '';
-  const vJSON  = encodeURIComponent(JSON.stringify(v));
+  const vStr  = encodeURIComponent(JSON.stringify(v));
 
-  const card = document.createElement('div');
-  card.className = 'v-card';
-  card.innerHTML = `
+  const el = document.createElement('div');
+  el.className = 'v-card';
+  el.innerHTML = `
     ${foto
       ? `<img class="v-card-img" src="${foto}" alt="${v.modelo}" loading="lazy" onerror="this.style.display='none'">`
-      : `<div class="v-card-img-placeholder"><svg viewBox="0 0 24 24"><path d="M21 15l-5-5L5 21"/><path d="M17 3H7a2 2 0 00-2 2v14"/></svg><span>Foto disponible en el dealer</span></div>`
-    }
+      : `<div class="v-no-img">📷 Foto disponible en el dealer</div>`}
     <div class="v-body">
       <div class="v-title">${v.ano} ${v.marca}<br>${v.modelo} ${trim}</div>
       <div class="v-badges">
-        <span class="badge">${mill} millas</span>
-        <span class="badge">${v.color || ''}</span>
-        <span class="badge">${v.clase || ''}</span>
-        ${desc ? `<span class="badge hot">⚡ Oferta</span>` : ''}
+        <span class="badge">${v.millaje} millas</span>
+        <span class="badge">${v.color||''}</span>
+        <span class="badge">${v.clase||''}</span>
+        ${desc?'<span class="badge hot">⚡ Oferta</span>':''}
       </div>
       <div class="v-price">${precio}</div>
       <div class="v-actions">
-        <button class="btn-primary" onclick="openPanel(decodeURIComponent('${vJSON}'))">Más detalles</button>
-        ${foto ? `<a href="${foto}" target="_blank" class="btn-photo"><svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-1.1 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>Foto</a>` : ''}
+        <button class="btn-primary" onclick="openPanel(decodeURIComponent('${vStr}'))">Más detalles</button>
+        ${foto?`<a href="${foto}" target="_blank" class="btn-photo">📷 Foto</a>`:''}
       </div>
     </div>`;
-  msgs.appendChild(card);
+  msgs.appendChild(el);
   msgs.scrollTop = msgs.scrollHeight;
 }
 
-// ============================================================
-// OPEN DETAIL PANEL
-// ============================================================
+// ── RENDER SLOT PICKER ──
+function renderSlotPicker() {
+  if (!SLOTS.length) return;
+  const msgs = document.getElementById('messages');
+
+  // Solo mostrar los 2 primeros días
+  const diasMostrar = SLOTS.slice(0, 2);
+
+  const el = document.createElement('div');
+  el.className = 'slot-picker';
+  el.id = 'slot-picker';
+
+  let html = `<div class="slot-picker-title">📅 Selecciona tu horario</div>`;
+  diasMostrar.forEach(dia => {
+    html += `<div class="slot-day"><div class="slot-day-label">${dia.dia}</div><div class="slot-btns">`;
+    dia.slots.forEach(s => {
+      html += `<button class="slot-btn" data-datetime="${s.datetime}" data-display="${s.display}" data-fecha="${dia.dia}" data-hora="${s.label}" onclick="selectSlot(this)">${s.label}</button>`;
+    });
+    html += `</div></div>`;
+  });
+
+  el.innerHTML = html;
+  msgs.appendChild(el);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function selectSlot(btn) {
+  // Deselect all
+  document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+
+  // Store selection in leadData
+  leadData.datetime_cita = btn.dataset.datetime;
+  leadData.fecha_display = btn.dataset.fecha;
+  leadData.hora_display  = btn.dataset.hora;
+
+  // Send selection as user message
+  const txt = document.getElementById('txt');
+  txt.value = btn.dataset.display;
+  send();
+}
+
+// ── OPEN PANEL ──
 function openPanel(vStr) {
   const v     = typeof vStr === 'string' ? JSON.parse(vStr) : vStr;
   const foto  = v.fotoweblink || v.foto || '';
   const trim  = v.sub_modelo_trim_level || '';
-  const mill  = v.millaje || '';
   const desc  = v.descripcion || '';
   const precio = v.precio || v.precio_venta || '';
 
   const img = document.getElementById('p-img');
-  if (foto) { img.src = foto; img.style.display = 'block'; } else { img.style.display = 'none'; }
+  foto ? (img.src=foto, img.style.display='block') : (img.style.display='none');
 
-  document.getElementById('p-title').textContent  = `${v.ano} ${v.marca} ${v.modelo} ${trim}`.trim();
-  document.getElementById('p-price').textContent  = precio;
+  document.getElementById('p-title').textContent = `${v.ano} ${v.marca} ${v.modelo} ${trim}`.trim();
+  document.getElementById('p-price').textContent = precio;
   document.getElementById('p-specs').innerHTML = `
-    <div class="spec"><div class="spec-lbl">Millaje</div><div class="spec-val">${mill} millas</div></div>
-    <div class="spec"><div class="spec-lbl">Color</div><div class="spec-val">${v.color || '—'}</div></div>
-    <div class="spec"><div class="spec-lbl">Motor</div><div class="spec-val">${v.motor || '—'}</div></div>
-    <div class="spec"><div class="spec-lbl">Transmisión</div><div class="spec-val">${v.transmision || '—'}</div></div>
-    <div class="spec"><div class="spec-lbl">MPG</div><div class="spec-val">${v.mpg || '—'}</div></div>
-    <div class="spec"><div class="spec-lbl">Clase</div><div class="spec-val">${v.clase || '—'}</div></div>
-    ${desc ? `<div class="spec" style="grid-column:1/-1"><div class="spec-lbl">Nota especial</div><div class="spec-val" style="color:var(--red)">${desc}</div></div>` : ''}`;
+    <div class="spec"><div class="spec-lbl">Millaje</div><div class="spec-val">${v.millaje} millas</div></div>
+    <div class="spec"><div class="spec-lbl">Color</div><div class="spec-val">${v.color||'—'}</div></div>
+    <div class="spec"><div class="spec-lbl">Motor</div><div class="spec-val">${v.motor||'—'}</div></div>
+    <div class="spec"><div class="spec-lbl">Transmisión</div><div class="spec-val">${v.transmision||'—'}</div></div>
+    <div class="spec"><div class="spec-lbl">MPG</div><div class="spec-val">${v.mpg||'—'}</div></div>
+    <div class="spec"><div class="spec-lbl">Clase</div><div class="spec-val">${v.clase||'—'}</div></div>
+    ${desc?`<div class="spec" style="grid-column:1/-1"><div class="spec-lbl">Oferta especial</div><div class="spec-val" style="color:var(--red)">${desc}</div></div>`:''}`;
   document.getElementById('p-pitch').innerHTML = getPitch(v);
 
-  const photoLink = document.getElementById('p-photo-link');
-  if (foto) { photoLink.href = foto; photoLink.style.display = 'flex'; }
-  else { photoLink.style.display = 'none'; }
+  const pl = document.getElementById('p-photo-link');
+  foto ? (pl.href=foto, pl.style.display='flex') : (pl.style.display='none');
 
   document.getElementById('panel').classList.add('open');
   document.getElementById('overlay').classList.add('open');
 }
-
 function closePanel() {
   document.getElementById('panel').classList.remove('open');
   document.getElementById('overlay').classList.remove('open');
 }
 
-// ============================================================
-// MESSAGE RENDERING
-// ============================================================
-function getTime() {
-  return new Date().toLocaleTimeString('es-PR',{hour:'2-digit',minute:'2-digit'});
-}
+// ── ADD MESSAGE ──
+function getTime() { return new Date().toLocaleTimeString('es-PR',{hour:'2-digit',minute:'2-digit'}); }
 
 function addMsg(text, role) {
   const msgs = document.getElementById('messages');
 
-  // Extract directives
-  const vehiculoMatch = text.match(/MOSTRAR_VEHICULO:([^\n]+)/);
-  const leadMatch     = text.match(/LEAD_DATA:(\{[\s\S]*?\})/);
+  const vMatch    = text.match(/MOSTRAR_VEHICULO:([^\n]+)/);
+  const leadMatch = text.match(/LEAD_DATA:(\{[\s\S]*?\}(?=\s*$|\s*\n))/m) || text.match(/LEAD_DATA:(\{[\s\S]*\})/);
+  const slotTrigger = /selecciona.*horario|elige.*día|cuándo.*viene|cuándo.*puede|cuándo te queda|agendamos/i.test(text);
+
   let clean = text
-    .replace(/MOSTRAR_VEHICULO:[^\n]*/g, '')
-    .replace(/LEAD_DATA:\{[\s\S]*?\}/g, '')
+    .replace(/MOSTRAR_VEHICULO:[^\n]*/g,'')
+    .replace(/LEAD_DATA:\{[\s\S]*\}/g,'')
     .trim();
 
-  // Render bubble
   if (clean) {
     const div = document.createElement('div');
     div.className = `msg ${role}`;
@@ -408,141 +426,138 @@ function addMsg(text, role) {
     msgs.appendChild(div);
   }
 
-  // Vehicle card
-  if (vehiculoMatch) {
-    const key = vehiculoMatch[1].trim();
-    const v   = findVehiculo(key);
+  // Show vehicle card
+  if (vMatch) {
+    const v = findVehiculo(vMatch[1].trim());
     if (v) setTimeout(() => renderCard(v), 350);
   }
 
-  // Lead capture
+  // Show slot picker when scheduling
+  if (role === 'bot' && slotTrigger && SLOTS.length && !document.getElementById('slot-picker')) {
+    setTimeout(() => renderSlotPicker(), 400);
+  }
+
+  // Process lead data
   if (leadMatch && !leadEnviado) {
     try {
       const parsed = JSON.parse(leadMatch[1]);
       Object.assign(leadData, parsed);
-      setTimeout(() => enviarLead(leadData), 400);
-    } catch(err) { console.warn('Lead parse error', err); }
+
+      // Add slot data if selected
+      if (leadData.datetime_cita) {
+        parsed.datetime_cita = leadData.datetime_cita;
+        parsed.fecha_display = leadData.fecha_display;
+        parsed.hora_display  = leadData.hora_display;
+      }
+
+      setTimeout(() => enviarLead(Object.assign(leadData, parsed)), 400);
+    } catch(err) { console.warn('Lead parse error', err.message); }
   }
 
   msgs.scrollTop = msgs.scrollHeight;
 }
 
-// ============================================================
-// SEND LEAD TO SHEET VIA DOPOST
-// ============================================================
+// ── SEND LEAD ──
 async function enviarLead(data) {
   if (leadEnviado) return;
   leadEnviado = true;
 
   try {
-    await fetch(DOPOST_URL, {
+    await fetch(BACKEND_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
-      mode: 'no-cors' // Google Apps Script requiere no-cors
+      mode: 'no-cors'
     });
 
-    // Banner de confirmación
-    const msgs   = document.getElementById('messages');
+    const msgs  = document.getElementById('messages');
+    const agendo = (data.agendo_cita||'').toLowerCase() === 'si';
     const banner = document.createElement('div');
     banner.className = 'lead-ok';
-    banner.innerHTML = `✓ <strong>${data.nombre || 'Lead'}</strong> registrado — te contactamos al ${data.telefono || '—'}`;
+
+    if (agendo && data.fecha_display) {
+      banner.innerHTML = `✅ <div><strong>${data.nombre||'Cita'} confirmada</strong><br>${data.fecha_display} a las ${data.hora_display}${data.email?'<br>📧 Confirmación enviada a '+data.email:''}<br>📞 Te contactamos al ${data.telefono||'—'}</div>`;
+    } else {
+      banner.innerHTML = `✅ <div><strong>${data.nombre||'Lead'} registrado</strong><br>Un asesor te contactará al ${data.telefono||'—'}</div>`;
+    }
+
     msgs.appendChild(banner);
     msgs.scrollTop = msgs.scrollHeight;
-
   } catch(err) {
-    console.error('Lead send error:', err);
-    const msgs   = document.getElementById('messages');
-    const banner = document.createElement('div');
-    banner.className = 'err-banner';
-    banner.textContent = 'Hubo un error guardando la información. Por favor llámanos al (787) 555-0000.';
-    msgs.appendChild(banner);
+    const msgs = document.getElementById('messages');
+    const b = document.createElement('div');
+    b.className = 'err-banner';
+    b.textContent = 'Hubo un error. Por favor llámanos directamente.';
+    msgs.appendChild(b);
   }
 }
 
-// ============================================================
-// TYPING INDICATOR
-// ============================================================
+// ── TYPING ──
 function showTyping() {
   const msgs = document.getElementById('messages');
-  const d    = document.createElement('div');
-  d.className = 'msg bot'; d.id = 'typing';
-  d.innerHTML = `<div class="typing"><span></span><span></span><span></span></div>`;
-  msgs.appendChild(d);
-  msgs.scrollTop = msgs.scrollHeight;
+  const d = document.createElement('div');
+  d.className='msg bot'; d.id='typing';
+  d.innerHTML=`<div class="typing"><span></span><span></span><span></span></div>`;
+  msgs.appendChild(d); msgs.scrollTop=msgs.scrollHeight;
 }
-function hideTyping() {
-  const el = document.getElementById('typing');
-  if (el) el.remove();
-}
+function hideTyping() { const e=document.getElementById('typing'); if(e) e.remove(); }
 
-// ============================================================
-// CALL CLAUDE API
-// ============================================================
+// ── CLAUDE API ──
 async function callClaude(userText) {
   history.push({ role:'user', content:userText });
   const res = await fetch('https://api.anthropic.com/v1/messages', {
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body: JSON.stringify({
-      model:    'claude-sonnet-4-20250514',
-      max_tokens: 1024,
-      system:   buildSystemPrompt(),
+      model:'claude-sonnet-4-20250514',
+      max_tokens:1024,
+      system: buildPrompt(),
       messages: history
     })
   });
   const data  = await res.json();
-  const reply = data.content?.[0]?.text || 'Hubo un error de conexión. Intenta de nuevo.';
+  const reply = data.content?.[0]?.text || 'Tuve un problema. Escríbeme de nuevo.';
   history.push({ role:'assistant', content:reply });
   return reply;
 }
 
-// ============================================================
-// SEND MESSAGE
-// ============================================================
+// ── SEND ──
 async function send() {
   if (isTyping) return;
   const input = document.getElementById('txt');
   const text  = input.value.trim();
   if (!text) return;
-  input.value = ''; input.style.height = 'auto';
+  input.value=''; input.style.height='auto';
   addMsg(text, 'user');
-  isTyping = true; showTyping();
+  isTyping=true; showTyping();
   try {
     const reply = await callClaude(text);
     hideTyping(); addMsg(reply, 'bot');
   } catch(err) {
     hideTyping();
-    addMsg('Tuve un problema de conexión. Escríbeme de nuevo o llámanos directamente.', 'bot');
+    addMsg('Tuve un problema de conexión. Escríbeme de nuevo o llámanos.', 'bot');
   }
-  isTyping = false;
+  isTyping=false;
 }
 
-function chip(btn) {
-  document.getElementById('txt').value = btn.textContent;
-  send();
-}
+function chip(btn) { document.getElementById('txt').value=btn.textContent; send(); }
 
-// ── Input auto-resize + Enter to send ──
 document.getElementById('txt').addEventListener('input', function() {
-  this.style.height = 'auto';
-  this.style.height = Math.min(this.scrollHeight, 96) + 'px';
+  this.style.height='auto';
+  this.style.height=Math.min(this.scrollHeight,96)+'px';
 });
 document.getElementById('txt').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+  if (e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}
 });
 
-// ============================================================
-// INIT
-// ============================================================
+// ── INIT ──
 function iniciarChat() {
-  const greeting = '¡Buenas! Soy DealerAmigo, tu asesor de PR Automotive Group. 🚗\n¿Qué tipo de vehículo estás buscando?';
-  history.push({ role:'assistant', content: greeting });
-  addMsg(greeting, 'bot');
+  const g = '¡Buenas! Soy DealerAmigo, tu asesor de PR Automotive Group. 🚗\n¿Qué tipo de vehículo estás buscando?';
+  history.push({ role:'assistant', content:g });
+  addMsg(g, 'bot');
 }
 
-// Cargar inventario en vivo al iniciar
-window.addEventListener('DOMContentLoaded', cargarInventario);
+window.addEventListener('DOMContentLoaded', cargarDatos);
 </script>
 </body>
 </html>
