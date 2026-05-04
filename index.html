@@ -152,8 +152,11 @@
 </div>
 
 <script>
-// ── CONFIG ── Reemplaza con tus Web App URLs reales tras desplegar en Apps Script
-const BACKEND_URL = 'https://script.google.com/macros/s/TU_DEPLOYMENT_ID/exec';
+// ╔══════════════════════════════════════════════════════════════╗
+// ║  CONFIG — SOLO ESTE VALOR (ya está puesto)                  ║
+// ╚══════════════════════════════════════════════════════════════╝
+const GS_URL = 'https://script.google.com/macros/s/AKfycbyi-lUidCc-u4qPT-Ursv2v6g6_GLfK1PrPLsmcKyyxLr456zBuvcViIuZjPgH9ohebrA/exec';
+// La API key de Claude está segura en Apps Script → Script Properties → CLAUDE_API_KEY
 
 // ── STATE ──
 let INVENTARIO  = [];
@@ -186,7 +189,7 @@ function getPitch(v) {
 // ── LOAD DATA FROM BACKEND ──
 async function cargarDatos() {
   try {
-    const res  = await fetch(BACKEND_URL);
+    const res  = await fetch(GS_URL);
     const json = await res.json();
     if (json.status === 'ok') {
       if (Array.isArray(json.inventario)) INVENTARIO = json.inventario;
@@ -463,7 +466,7 @@ async function enviarLead(data) {
   leadEnviado = true;
 
   try {
-    await fetch(BACKEND_URL, {
+    await fetch(GS_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
@@ -502,21 +505,21 @@ function showTyping() {
 }
 function hideTyping() { const e=document.getElementById('typing'); if(e) e.remove(); }
 
-// ── CLAUDE API ──
+// ── CLAUDE (via Apps Script — key segura en servidor) ──
 async function callClaude(userText) {
   history.push({ role:'user', content:userText });
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
+  const res = await fetch(GS_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      model:'claude-sonnet-4-20250514',
-      max_tokens:1024,
-      system: buildPrompt(),
-      messages: history
+      action:   'chat',
+      messages: history,
+      system:   buildPrompt()
     })
   });
-  const data  = await res.json();
-  const reply = data.content?.[0]?.text || 'Tuve un problema. Escríbeme de nuevo.';
+  const json  = await res.json();
+  if (json.status === 'error') throw new Error(json.message);
+  const reply = json.reply || 'Tuve un problema. Escríbeme de nuevo.';
   history.push({ role:'assistant', content:reply });
   return reply;
 }
