@@ -154,13 +154,10 @@
 </div>
 
 <script>
-// ================================================================
-// CONFIG — Solo cambia esta URL cuando hagas nuevo deployment
-// ================================================================
-const GS_URL = 'https://script.google.com/macros/s/AKfycbw2PqRvBBektQeLrz1QvYrkuS80UZRm0QnHe8lI7aTpHIzGw5PVnS8fmavkssqA3PdIsA/exec';
+const GS_URL = 'https://script.google.com/macros/s/AKfycbzsf9uPjwwyyxtVpZjryxY86Z7QdsBd8sBFxxMHABa2SRjN14_EujYGERXe63xKRgn9KQ/exec';
 // ================================================================
 // ARQUITECTURA (sin CORS, sin key expuesta):
-// Chat        → GET ?action=chat&data=...  → Apps Script llama Claude
+// Chat        → POST ?action=chat (body JSON) → Apps Script llama Claude
 // Inventario  → GET ?action=inventory      → Apps Script lee Sheet
 // Leads       → POST text/plain + no-cors  → Apps Script guarda en Sheet
 // Auto-refresh si Apps Script tarda >25s (timeout protection)
@@ -293,27 +290,29 @@ async function cargarDatos() {
   iniciarChat();
 }
 
-// ── CALL CLAUDE via GET (key segura en Apps Script) ──
+// ── CALL CLAUDE via POST ?action=chat (key segura en Apps Script) ──
 async function callClaude(userText) {
   history.push({role:'user',content:userText});
 
   const payload = {
-    messages: history,
+    messages: history.slice(-8), // últimos 8 mensajes — evita URL/body largo
     system:   buildPrompt()
   };
 
-  // Encode payload como query param — GET evita CORS preflight
-  const encoded = encodeURIComponent(JSON.stringify(payload));
-  const url     = GS_URL + '?action=chat&data=' + encoded;
-
-  // Timeout de 25s para proteger contra timeout de Apps Script
+  // Timeout de 25s — Apps Script tiene límite de 30s
   const controller = new AbortController();
   const timer = setTimeout(()=>{
     controller.abort();
     mostrarRefreshBanner();
   }, CHAT_TIMEOUT_MS);
 
-  const res  = await fetch(url, { signal: controller.signal });
+  // POST ?action=chat — body JSON, no query params (evita límite de URL)
+  const res = await fetch(GS_URL + '?action=chat', {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify(payload),
+    signal:  controller.signal
+  });
   clearTimeout(timer);
 
   const json = await res.json();
